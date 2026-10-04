@@ -1,0 +1,162 @@
+body {
+    background-color: #E8F1F2;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    color: #345B63;
+    text-align: center;
+    font-size: 36px;
+    letter-spacing: 1px;
+    border: 3px solid darkblue;
+    padding: 15px;
+    margin: 20px auto 30px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+h2,
+h3,
+h4 {
+    color: #345B63;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h5,
+h6 {
+    color: #345B63;
+    font-size: 24px;
+}
+
+p {
+    font-size: 18px;
+    color: #40545A;
+    padding: 5px;
+    margin: 8px 0;
+}
+
+a {
+    display: block;
+    width: fit-content;
+    margin: 10px auto;
+    color: white;
+    background-color: #6B8E8E;
+    font-size: 18px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    background-color: #345B63;
+    transform: translateY(-2px);
+}
+
+ul,
+ol {
+    color: #345B63;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+li {
+    margin-bottom: 6px;
+}
+
+button {
+    display: block;
+    margin: 30px auto;
+    background-color: #6B8E8E;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    transition: 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #345B63;
+    transform: scale(1.05);
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    margin: 0;
+    width: 280px;
+    flex: 1 1 280px;
+    max-width: 350px;
+    min-height: 220px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid lightgray;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: stretch;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.card h2,
+.card h3,
+.card h4 {
+    margin-top: 0;
+}
+
+body > p {
+    text-align: center;
+    font-size: 16px;
+}
+
+footer {
+    text-align: center;
+    background-color: #6B8E8E;
+    color: white;
+    padding: 18px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+@media (max-width: 600px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+}
