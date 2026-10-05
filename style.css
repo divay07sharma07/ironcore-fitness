@@ -118,7 +118,7 @@ section p {
 ========================= */
 
 #home {
-    min-height: 450px;
+    min-height: 550px;
     display: flex;
     flex-direction: column;
     justify-content: center;
