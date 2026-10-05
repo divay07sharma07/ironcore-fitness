@@ -332,11 +332,11 @@ section p {
 
 #cta {
     background-color: #e63946;
-    padding: 70px 20px;
+    padding: 80px 20px;
+    box-shadow: inset 0 8px 25px rgba(0, 0, 0, 0.15);
 }
-
 #cta h2 {
-    font-size: 38px;
+    font-size: 42px;
     margin-bottom: 15px;
 }
 
@@ -473,7 +473,7 @@ footer {
     }
 
     .nav-links a {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     header h1 {
@@ -481,7 +481,7 @@ footer {
     }
 
     #home h2 {
-        font-size: 34px;
+        font-size: 30px;
     }
 
     .about-container {
@@ -502,4 +502,8 @@ footer {
         max-width: 300px;
     }
 
+}
+
+a {
+    transition: all 0.3s ease;
 }
