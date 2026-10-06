@@ -644,3 +644,35 @@ a {
     }
 
 }
+
+/* POPUP CLOSING ANIMATION */
+
+.welcome-popup.closing {
+    animation: popupFadeOut 0.35s ease forwards;
+}
+
+.welcome-popup.closing .popup-box {
+    animation: popupClose 0.35s ease forwards;
+}
+
+@keyframes popupFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes popupClose {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.95);
+    }
+}
