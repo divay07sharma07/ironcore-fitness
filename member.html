@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Member Dashboard | IronCore Fitness</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1>IronCore Fitness</h1>
+
+            <h2>Member Dashboard</h2>
+
+            <p id="welcome-message">Loading...</p>
+
+            <p>
+                Welcome to your IronCore Fitness member area.
+            </p>
+
+            <button id="logout-button">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="auth.js"></script>
+
+    <script>
+
+        async function checkLogin() {
+
+            const {
+                data: { session }
+            } = await supabaseClient.auth.getSession();
+
+            if (!session) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            document.getElementById("welcome-message").textContent =
+                "Welcome, " + session.user.email;
+        }
+
+        document.getElementById("logout-button")
+            .addEventListener("click", async function () {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href = "login.html";
+
+            });
+
+        checkLogin();
+
+    </script>
+
+</body>
+
+</html>
