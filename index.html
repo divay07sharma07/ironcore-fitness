@@ -205,13 +205,17 @@
         const closeButton = document.querySelector(".close-popup");
         const understandButton = document.querySelector(".popup-button");
 
-        closeButton.addEventListener("click", function () {
+        if (localStorage.getItem("ironcoreNoticeAccepted") === "true") {
             popup.style.display = "none";
-        });
+        }
 
-        understandButton.addEventListener("click", function () {
+        function closePopup() {
             popup.style.display = "none";
-        });
+            localStorage.setItem("ironcoreNoticeAccepted", "true");
+        }
+
+        closeButton.addEventListener("click", closePopup);
+        understandButton.addEventListener("click", closePopup);
 
     });
 </script>
