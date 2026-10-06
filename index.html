@@ -198,11 +198,23 @@
     </p>
     </footer>
 
-    <script>
-    function closePopup() {
-        document.getElementById("welcome-popup").style.display = "none";
-    }
-    </script>
+   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const popup = document.getElementById("welcome-popup");
+        const closeButton = document.querySelector(".close-popup");
+        const understandButton = document.querySelector(".popup-button");
+
+        closeButton.addEventListener("click", function () {
+            popup.style.display = "none";
+        });
+
+        understandButton.addEventListener("click", function () {
+            popup.style.display = "none";
+        });
+
+    });
+</script>
 
 </body>
 
