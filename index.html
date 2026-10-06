@@ -208,7 +208,13 @@
         const understandButton = document.querySelector(".popup-button");
 
         function closePopup() {
-            popup.style.display = "none";
+
+            popup.classList.add("closing");
+
+            setTimeout(function () {
+                popup.style.display = "none";
+            }, 350);
+
         }
 
         closeButton.addEventListener("click", closePopup);
