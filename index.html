@@ -204,6 +204,7 @@
     document.addEventListener("DOMContentLoaded", function () {
 
         const popup = document.getElementById("welcome-popup");
+        const popupBox = document.querySelector(".popup-box");
         const closeButton = document.querySelector(".close-popup");
         const understandButton = document.querySelector(".popup-button");
 
@@ -213,16 +214,18 @@
 
             setTimeout(function () {
                 popup.style.display = "none";
+                popup.classList.remove("closing");
             }, 350);
 
         }
 
         closeButton.addEventListener("click", closePopup);
+
         understandButton.addEventListener("click", closePopup);
 
         popup.addEventListener("click", function (event) {
 
-            if (event.target === popup) {
+            if (!popupBox.contains(event.target)) {
                 closePopup();
             }
 
@@ -230,7 +233,6 @@
 
     });
 </script>
-
 </body>
 
 </html>
