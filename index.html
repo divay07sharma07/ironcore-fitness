@@ -207,13 +207,8 @@
         const closeButton = document.querySelector(".close-popup");
         const understandButton = document.querySelector(".popup-button");
 
-        if (localStorage.getItem("ironcoreNoticeAccepted") === "true") {
-            popup.style.display = "none";
-        }
-
         function closePopup() {
             popup.style.display = "none";
-            localStorage.setItem("ironcoreNoticeAccepted", "true");
         }
 
         closeButton.addEventListener("click", closePopup);
