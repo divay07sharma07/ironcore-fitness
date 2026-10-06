@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="home-page">
+<body class="home-page" data-popup="true">
 
     <div id="welcome-popup" class="welcome-popup">
 
@@ -54,7 +54,7 @@
         <div class="logo">IRONCORE</div>
 
         <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html" id="home-link">Home</a>
             <a href="about.html">About</a>
             <a href="facilities.html">Facilities</a>
             <a href="membership.html">Membership</a>
@@ -204,38 +204,52 @@
     </footer>
 
    <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const popup = document.getElementById("welcome-popup");
-        const popupBox = document.querySelector(".popup-box");
-        const closeButton = document.querySelector(".close-popup");
-        const understandButton = document.querySelector(".popup-button");
+    const popup = document.getElementById("welcome-popup");
+    const popupBox = document.querySelector(".popup-box");
+    const closeButton = document.querySelector(".close-popup");
+    const understandButton = document.querySelector(".popup-button");
 
-        function closePopup() {
+    function closePopup() {
 
-            popup.classList.add("closing");
+        popup.classList.add("closing");
 
-            setTimeout(function () {
-                popup.style.display = "none";
-                popup.classList.remove("closing");
-            }, 350);
+        setTimeout(function () {
+            popup.style.display = "none";
+            popup.classList.remove("closing");
+        }, 350);
 
+    }
+
+    closeButton.addEventListener("click", closePopup);
+
+    understandButton.addEventListener("click", closePopup);
+
+    popup.addEventListener("click", function (event) {
+
+        if (!popupBox.contains(event.target)) {
+            closePopup();
         }
 
-        closeButton.addEventListener("click", closePopup);
-
-        understandButton.addEventListener("click", closePopup);
-
-        popup.addEventListener("click", function (event) {
-
-            if (!popupBox.contains(event.target)) {
-                closePopup();
-            }
-
-        });
-
     });
+
+});
 </script>
+
+    <script>
+document.getElementById("home-link").addEventListener("click", function (event) {
+
+    if (window.location.pathname.endsWith("/index.html") ||
+        window.location.pathname.endsWith("/ironcore-fitness/")) {
+
+        event.preventDefault();
+
+    }
+
+});
+</script>
+    
 </body>
 
 </html>
