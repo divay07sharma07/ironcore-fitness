@@ -113,21 +113,28 @@
 
             message.textContent = "Creating account...";
 
-            const { data, error } =
-                await supabaseClient.auth.signUp({
-                    email: email,
-                    password: password
-                });
+            try {
 
-            if (error) {
+    const { data, error } =
+        await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+        });
 
-                message.textContent = error.message;
+    if (error) {
+        message.textContent = error.message;
+        return;
+    }
 
-                return;
-            }
+    message.textContent =
+        "Account created! Check your email to confirm your account.";
 
-            message.textContent =
-                "Account created! Check your email to confirm your account.";
+} catch (error) {
+
+    message.textContent =
+        "Connection error: " + error.message;
+
+}
 
         });
     </script>
