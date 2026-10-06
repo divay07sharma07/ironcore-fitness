@@ -86,11 +86,10 @@
     }
 });
             if (error) {
-
-                message.textContent = error.message;
-
-                return;
-            }
+    message.textContent = "Login error: " + error.message;
+    alert(error.message);
+    return;
+}
 
             message.textContent = "Login successful!";
 window.location.href = "https://divay07sharma07.github.io/ironcore-fitness/member.html";
