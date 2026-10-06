@@ -52,8 +52,6 @@
 
             </form>
 
-            <p id="message"></p>
-
             <p>
                 Don't have an account?
                 <a href="#" id="signup-link">Create Account</a>
@@ -72,31 +70,30 @@
 
         loginForm.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
+    event.preventDefault();
 
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-            message.textContent = "Logging in...";
+    message.textContent = "Logging in...";
 
-            const { data, error } =
-                await supabaseClient.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-        emailRedirectTo: "https://divay07sharma07.github.io/ironcore-fitness/"
-    }
-});
-            if (error) {
-    message.textContent = "Login error: " + error.message;
-    alert(error.message);
-    return;
-}
-
-            message.textContent = "Login successful!";
-window.location.href = "https://divay07sharma07.github.io/ironcore-fitness/member.html";
-
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
         });
+
+    if (error) {
+        message.textContent = "Login error: " + error.message;
+        alert(error.message);
+        return;
+    }
+
+    message.textContent = "Login successful!";
+
+    window.location.href =
+        "https://divay07sharma07.github.io/ironcore-fitness/member.html";
+});
 
         signupLink.addEventListener("click", async function (event) {
 
