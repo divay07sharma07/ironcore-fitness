@@ -563,6 +563,8 @@ a {
     margin-bottom: 20px;
     font-size: 28px;
     letter-spacing: 0.5px;
+    border-bottom: 2px solid #E8F1F2;
+    padding-bottom: 15px;
 }
 
 .popup-box p {
