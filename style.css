@@ -607,7 +607,40 @@ a {
     transition: all 0.3s ease;
 }
 
+.demo-label {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 6px 12px;
+    background-color: #E8F1F2;
+    color: #345B63;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
 .popup-button:hover {
     background-color: #2A4A50;
     transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+
+    .popup-box {
+        width: 85%;
+        padding: 35px 20px;
+    }
+
+    .popup-box h2 {
+        font-size: 24px;
+    }
+
+    .popup-box p {
+        font-size: 15px;
+    }
+
+    .popup-button {
+        width: 80%;
+    }
+
 }
