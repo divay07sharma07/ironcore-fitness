@@ -156,6 +156,49 @@
             color: #222;
         }
 
+        .member-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.member-logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #345B63;
+}
+
+.member-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.member-nav-links a {
+    text-decoration: none;
+    color: #345B63;
+    font-weight: bold;
+}
+
+.profile-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.profile-card h2 {
+    color: #345B63;
+    margin-top: 0;
+}
+
         .demo-notice {
             text-align: center;
             font-size: 13px;
@@ -170,7 +213,44 @@
 
     <main class="member-page">
 
+        <nav class="member-nav">
+
+    <div class="member-logo">
+        IRONCORE
+    </div>
+
+    <div class="member-nav-links">
+        <a href="#profile">👤 Profile</a>
+        <a href="#workout">🏋️ Workout</a>
+        <a href="#progress">📊 Progress</a>
+        <a href="#goals">🎯 Goals</a>
+        <a href="#rewards">🎁 Rewards</a>
+    </div>
+
+</nav>
+
         <!-- MEMBER HEADER -->
+
+        <section class="profile-card" id="profile">
+
+    <h2>👤 My Profile</h2>
+
+    <p>
+        <strong>Email:</strong>
+        <span id="profile-email">Loading...</span>
+    </p>
+
+    <p>
+        <strong>Membership:</strong>
+        IronCore Demo Member
+    </p>
+
+    <p>
+        <strong>Member Level:</strong>
+        Warrior 🏅
+    </p>
+
+</section>
 
         <section class="member-header">
 
@@ -503,6 +583,9 @@
 
             document.getElementById("welcome-message").textContent =
                 "Welcome back, " + session.user.email + "!";
+
+            document.getElementById("profile-email").textContent =
+    session.user.email;
 
 
         }
