@@ -252,9 +252,11 @@
 
     <h2>👤 My Profile</h2>
 
-    <div class="profile-avatar">
-        👤
-    </div>
+    <div class="profile-avatar" id="avatar">
+    👤
+</div>
+
+            <input type="file" id="avatar-input" accept="image/*" hidden>
 
     <p>
         <strong>Email:</strong>
@@ -586,6 +588,13 @@
     <script src="auth.js"></script>
 
     <script>
+
+        const avatar = document.getElementById("avatar");
+const avatarInput = document.getElementById("avatar-input");
+
+avatar.addEventListener("click", function () {
+    avatarInput.click();
+});
 
         async function checkLogin() {
 
