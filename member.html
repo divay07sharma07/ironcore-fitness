@@ -275,7 +275,7 @@
 
             <p class="avatar-hint">Click your avatar to change photo</p>
 
-            <input type="file" id="avatar-input" accept="image/*" hidden>
+<input type="file" id="avatar-input" accept="image/*" hidden>
 
     <p>
         <strong>Email:</strong>
@@ -615,20 +615,26 @@ avatar.addEventListener("click", function () {
     avatarInput.click();
 });
 
-        avatarInput.addEventListener("change", function () {
+        avatarInput.addEventListener("change", function (event) {
 
-    const file = avatarInput.files[0];
+    const file = event.target.files[0];
 
     if (!file) {
         return;
     }
 
-    const imageURL = URL.createObjectURL(file);
+    const reader = new FileReader();
 
-    avatar.innerHTML = "";
-    avatar.style.backgroundImage = "url('" + imageURL + "')";
-    avatar.style.backgroundSize = "cover";
-    avatar.style.backgroundPosition = "center";
+    reader.onload = function (e) {
+        avatar.innerHTML = "";
+
+        avatar.style.backgroundImage = "url('" + e.target.result + "')";
+        avatar.style.backgroundSize = "cover";
+        avatar.style.backgroundPosition = "center";
+        avatar.style.backgroundRepeat = "no-repeat";
+    };
+
+    reader.readAsDataURL(file);
 
 });
 
