@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
 
     <style>
-
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
             background: #E8F1F2;
-            color: #333;
+            font-family: Arial, sans-serif;
+            color: #263238;
         }
 
         .member-nav {
@@ -28,7 +28,6 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
         }
 
         .member-logo {
@@ -38,7 +37,7 @@
 
         .member-nav-links {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -53,132 +52,109 @@
             background: rgba(255,255,255,0.15);
         }
 
-        .member-container {
-            max-width: 1000px;
+        .dashboard {
+            max-width: 1100px;
             margin: 30px auto;
             padding: 0 20px;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            color: #345B63;
+        }
+
+        .email {
+            font-weight: bold;
         }
 
         .profile-card,
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-        }
-
-        .profile-card {
-            text-align: center;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         .profile-avatar {
-            width: 80px;
-            height: 80px;
-            margin: 15px auto 10px;
+            width: 100px;
+            height: 100px;
+            margin: 10px auto;
             border-radius: 50%;
             background: #E8F1F2;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 45px;
             cursor: pointer;
-            transition: transform 0.2s ease;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-
-        .profile-avatar:hover {
-            transform: scale(1.05);
+            overflow: hidden;
+            border: 3px solid #345B63;
         }
 
         .avatar-hint {
+            text-align: center;
+            color: #666;
             font-size: 13px;
-            color: #666;
-            margin-top: 0;
-        }
-
-        .profile-email {
-            color: #666;
         }
 
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-top: 20px;
         }
 
-        .stat-box {
+        .stat {
             background: #E8F1F2;
             padding: 18px;
             border-radius: 12px;
             text-align: center;
         }
 
-        .stat-box h3 {
-            margin: 0;
-            font-size: 28px;
-            color: #345B63;
-        }
-
-        .stat-box p {
-            margin: 5px 0 0;
-        }
-
-        .card h2 {
-            color: #345B63;
-            margin-top: 0;
-        }
-
-        .workout-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .workout-list li {
-            padding: 12px;
-            margin-bottom: 8px;
-            background: #E8F1F2;
-            border-radius: 10px;
-        }
-
-        .complete-button {
+        .stat strong {
             display: block;
-            width: 100%;
-            margin-top: 20px;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            background: #345B63;
-            color: white;
-            font-size: 17px;
+            font-size: 30px;
+            color: #345B63;
+        }
+
+        .level-box {
+            text-align: center;
+        }
+
+        .current-level {
+            font-size: 28px;
             font-weight: bold;
-            cursor: pointer;
+            color: #345B63;
         }
 
-        .complete-button:hover {
-            opacity: 0.9;
+        .levels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        .complete-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .notice {
-            margin-top: 15px;
+        .level {
             padding: 12px;
-            background: #fff7df;
             border-radius: 10px;
-            font-size: 13px;
-            color: #665500;
+            background: #f1f1f1;
+        }
+
+        .level.active {
+            background: #d7eeee;
+            border: 2px solid #345B63;
+            font-weight: bold;
         }
 
         .progress-bar {
             width: 100%;
-            height: 14px;
+            height: 18px;
             background: #ddd;
             border-radius: 20px;
             overflow: hidden;
@@ -189,1781 +165,840 @@
             height: 100%;
             width: 0%;
             background: #345B63;
-            transition: width 0.4s ease;
+            transition: width 0.3s ease;
         }
 
-        .goal {
-            margin-bottom: 20px;
-        }
-
-        .goal-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
-        .level-box {
-            margin-top: 20px;
-        }
-
-        .current-level {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 18px;
-            background: #E8F1F2;
-            border-radius: 15px;
-        }
-
-        .level-icon {
-            font-size: 42px;
-        }
-
-        .current-level h3 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .current-level p {
-            margin: 5px 0 0;
-            color: #666;
-        }
-
-        .all-levels {
-            display: grid;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .level-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 13px;
-            border: 1px solid #ddd;
+        button {
+            border: none;
             border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 15px;
         }
 
-        .level-item.active {
-            border: 2px solid #345B63;
-            background: #E8F1F2;
+        .complete-btn {
+            background: #345B63;
+            color: white;
+            display: block;
+            margin: 15px auto;
         }
 
-        .level-item span {
-            font-size: 22px;
+        .complete-btn:hover {
+            opacity: 0.9;
         }
 
-        .level-item strong {
-            flex: 1;
+        .logout-btn {
+            background: #8B0000;
+            color: white;
         }
 
-        .level-item small {
-            color: #666;
-        }
-
-        .challenge {
-            padding: 18px;
-            background: #E8F1F2;
-            border-radius: 12px;
-        }
-
-        .reward-grid {
+        .rewards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
         }
 
         .reward {
-            padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 14px;
+            padding: 18px;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .reward:hover {
-            transform: translateY(-3px);
+            background: #eeeeee;
         }
 
         .reward.unlocked {
-            border-color: #345B63;
-            background: #E8F1F2;
-        }
-
-        .reward.locked {
-            opacity: 0.55;
+            background: #d7eeee;
+            border: 2px solid #345B63;
         }
 
         .reward-icon {
-            font-size: 35px;
-        }
-
-        .reward h3 {
-            margin: 8px 0;
-        }
-
-        .reward-status {
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .tip {
-            padding: 18px;
-            background: #E8F1F2;
-            border-radius: 12px;
-        }
-
-        .button-area {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .member-button {
-            display: inline-block;
-            padding: 12px 22px;
-            margin: 5px;
-            background: #345B63;
-            color: white;
-            text-decoration: none;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .logout-button {
-            background: #777;
+            font-size: 32px;
         }
 
         .demo-notice {
+            background: #fff3cd;
+            border: 1px solid #e0c36b;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 25px;
             text-align: center;
-            font-size: 13px;
-            color: #777;
-            margin: 25px 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
         }
 
         @media (max-width: 700px) {
-
             .stats,
-            .reward-grid {
+            .rewards,
+            .levels {
                 grid-template-columns: 1fr;
             }
 
             .member-nav {
-                justify-content: center;
-                text-align: center;
-            }
-
-            .member-nav-links {
-                justify-content: center;
-            }
-
-            .level-item {
-                flex-wrap: wrap;
-            }
-
-            .level-item small {
-                width: 100%;
-                margin-left: 32px;
+                gap: 12px;
             }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-    <!-- NAVIGATION -->
+    <div id="loading" class="loading">
+        🔐 Checking your member account...
+    </div>
 
-    <nav class="member-nav">
+    <div id="member-content" style="display:none;">
 
-        <div class="member-logo">
-            IRONCORE
-        </div>
+        <nav class="member-nav">
+            <div class="member-logo">IRONCORE</div>
 
-        <div class="member-nav-links">
-
-            <a href="#profile">
-                👤 Profile
-            </a>
-
-            <a href="#workout">
-                🏋️ Workout
-            </a>
-
-            <a href="#progress">
-                📊 Progress
-            </a>
-
-            <a href="#goals">
-                🎯 Goals
-            </a>
-
-            <a href="#rewards">
-                🎁 Rewards
-            </a>
-
-        </div>
-
-    </nav>
-
-
-    <main class="member-container">
-
-
-        <!-- PROFILE -->
-
-        <section class="profile-card" id="profile">
-
-            <div class="profile-avatar" id="avatar">
-                👤
+            <div class="member-nav-links">
+                <a href="#profile">👤 Profile</a>
+                <a href="#workout">🏋️ Workout</a>
+                <a href="#progress">📊 Progress</a>
+                <a href="#goals">🎯 Goals</a>
+                <a href="#rewards">🎁 Rewards</a>
             </div>
+        </nav>
 
-            <p class="avatar-hint">
-                Click your avatar to change photo
-            </p>
+        <main class="dashboard">
 
-            <input
-                type="file"
-                id="avatar-input"
-                accept="image/*"
-                hidden
-            >
+            <section class="welcome">
+                <h1>🏆 Your Member Space</h1>
+                <p>Welcome back, <span id="user-email" class="email"></span></p>
+            </section>
 
-            <h1 id="welcome-message">
-                Welcome back!
-            </h1>
+            <!-- PROFILE -->
+            <section id="profile" class="profile-card">
 
-            <p>
-                Welcome to your IronCore Fitness member area.
-            </p>
+                <h2>👤 My Profile</h2>
 
-            <p class="profile-email" id="profile-email">
-                Loading...
-            </p>
-
-
-            <div class="stats">
-
-                <div class="stat-box">
-
-                    <h3 id="workout-count">
-                        0
-                    </h3>
-
-                    <p>
-                        Workouts Completed
-                    </p>
-
+                <div
+                    class="profile-avatar"
+                    id="avatar"
+                    title="Click to change your profile photo"
+                >
+                    👤
                 </div>
 
-
-                <div class="stat-box">
-
-                    <h3 id="streak-count">
-                        0
-                    </h3>
-
-                    <p>
-                        Day Streak
-                    </p>
-
-                </div>
-
-
-                <div class="stat-box">
-
-                    <h3 id="profile-level">
-                        Beginner
-                    </h3>
-
-                    <p>
-                        Current Level
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- WORKOUT -->
-
-        <section class="card" id="workout">
-
-            <h2>
-                🏋️ My Workout
-            </h2>
-
-            <p>
-                Today's recommended workout:
-            </p>
-
-
-            <ul class="workout-list">
-
-                <li>
-                    🔥 Warm-up — 10 minutes
-                </li>
-
-                <li>
-                    💪 Squats — 3 sets
-                </li>
-
-                <li>
-                    🏋️ Push-ups — 3 sets
-                </li>
-
-                <li>
-                    🧱 Plank — 3 sets
-                </li>
-
-                <li>
-                    🧘 Cool-down — 10 minutes
-                </li>
-
-            </ul>
-
-
-            <button
-                class="complete-button"
-                id="complete-workout">
-
-                ✅ Mark Today's Workout Complete
-
-            </button>
-
-
-            <div class="notice">
-
-                ⚠️ <strong>Member-reported activity:</strong>
-                This button records the workout based on
-                the member's report. IronCore does not
-                automatically verify physical activity.
-
-            </div>
-
-        </section>
-
-
-        <!-- PROGRESS -->
-
-        <section class="card" id="progress">
-
-            <h2>
-                📊 My Progress
-            </h2>
-
-            <p>
-                You have completed
-                <strong id="progress-workouts">0</strong>
-                workouts.
-            </p>
-
-
-            <p>
-                ⭐ XP:
-                <strong id="xp-points">0</strong>
-            </p>
-
-
-            <p>
-                🔥 Current Streak:
-                <strong id="progress-streak">0</strong>
-                Days
-            </p>
-
-        </section>
-
-
-        <!-- GOALS -->
-
-        <section class="card" id="goals">
-
-            <h2>
-                🎯 My Goals
-            </h2>
-
-
-            <div class="goal">
-
-                <div class="goal-header">
-
-                    <strong>
-                        💪 Strength
-                    </strong>
-
-                    <span>
-                        70%
-                    </span>
-
-                </div>
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        style="width:70%">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="goal">
-
-                <div class="goal-header">
-
-                    <strong>
-                        🏃 Stamina
-                    </strong>
-
-                    <span>
-                        55%
-                    </span>
-
-                </div>
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        style="width:55%">
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="goal">
-
-                <div class="goal-header">
-
-                    <strong>
-                        🔥 Consistency
-                    </strong>
-
-                    <span>
-                        80%
-                    </span>
-
-                </div>
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        style="width:80%">
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- LEVEL -->
-
-        <section class="card" id="level">
-
-            <h2>
-                🏆 IronCore Level
-            </h2>
-
-
-            <div class="level-box">
-
-
-                <div class="current-level">
-
-                    <div
-                        class="level-icon"
-                        id="level-icon">
-
-                        🟢
-
-                    </div>
-
-
-                    <div>
-
-                        <h3 id="level-name">
-                            Level 1 — Beginner
-                        </h3>
-
-                        <p id="level-requirement">
-                            0–4 workouts
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        id="level-progress-fill">
-                    </div>
-
-                </div>
-
-
-                <p id="level-progress-text">
-                    0 workouts
+                <p class="avatar-hint">
+                    Click your avatar to change your photo.
                 </p>
 
-
-                <div class="all-levels">
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-1">
-
-                        <span>🟢</span>
-
-                        <strong>
-                            Level 1 — Beginner
-                        </strong>
-
-                        <small>
-                            0–4 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-2">
-
-                        <span>🔵</span>
-
-                        <strong>
-                            Level 2 — Starter
-                        </strong>
-
-                        <small>
-                            5–9 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-3">
-
-                        <span>🟣</span>
-
-                        <strong>
-                            Level 3 — Trainee
-                        </strong>
-
-                        <small>
-                            10–19 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-4">
-
-                        <span>🟠</span>
-
-                        <strong>
-                            Level 4 — Warrior
-                        </strong>
-
-                        <small>
-                            20–34 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-5">
-
-                        <span>🔴</span>
-
-                        <strong>
-                            Level 5 — Fighter
-                        </strong>
-
-                        <small>
-                            35–49 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-6">
-
-                        <span>🟡</span>
-
-                        <strong>
-                            Level 6 — Athlete
-                        </strong>
-
-                        <small>
-                            50–74 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-7">
-
-                        <span>⚡</span>
-
-                        <strong>
-                            Level 7 — Elite
-                        </strong>
-
-                        <small>
-                            75–99 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-8">
-
-                        <span>💎</span>
-
-                        <strong>
-                            Level 8 — Pro
-                        </strong>
-
-                        <small>
-                            100–149 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-9">
-
-                        <span>👑</span>
-
-                        <strong>
-                            Level 9 — Master
-                        </strong>
-
-                        <small>
-                            150–199 workouts
-                        </small>
-
-                    </div>
-
-
-                    <div
-                        class="level-item"
-                        id="level-item-10">
-
-                        <span>🏆</span>
-
-                        <strong>
-                            Level 10 — IronCore Legend
-                        </strong>
-
-                        <small>
-                            200+ workouts
-                        </small>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- WEEKLY CHALLENGE -->
-
-        <section class="card">
-
-            <h2>
-                ⚔️ Weekly Challenge
-            </h2>
-
-
-            <div class="challenge">
-
-                <h3>
-                    7-Day Consistency Challenge
-                </h3>
+                <input
+                    type="file"
+                    id="avatar-input"
+                    accept="image/*"
+                    hidden
+                >
 
                 <p>
-                    Complete 4 workouts this week.
+                    <strong>Email:</strong>
+                    <span id="profile-email"></span>
                 </p>
 
+                <button class="logout-btn" id="logout-btn">
+                    Logout
+                </button>
+
+            </section>
+
+            <!-- STATS -->
+            <section id="progress" class="card">
+
+                <h2>📊 Your Progress</h2>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        🏋️
+                        <strong id="workouts">0</strong>
+                        Workouts
+                    </div>
+
+                    <div class="stat">
+                        🔥
+                        <strong id="streak">0</strong>
+                        Day Streak
+                    </div>
+
+                    <div class="stat">
+                        ⭐
+                        <strong id="xp">0</strong>
+                        XP
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- LEVEL -->
+            <section class="card level-box">
+
+                <h2>🏆 IronCore Level</h2>
+
+                <div id="current-level" class="current-level">
+                    Beginner
+                </div>
+
+                <p id="level-description">
+                    Start your journey!
+                </p>
+
+                <div class="levels">
+
+                    <div class="level" data-level="1">🟢 Level 1 — Beginner<br>0–4 workouts</div>
+
+                    <div class="level" data-level="2">🔵 Level 2 — Starter<br>5–9 workouts</div>
+
+                    <div class="level" data-level="3">🟣 Level 3 — Trainee<br>10–19 workouts</div>
+
+                    <div class="level" data-level="4">🟠 Level 4 — Warrior<br>20–34 workouts</div>
+
+                    <div class="level" data-level="5">🔴 Level 5 — Fighter<br>35–49 workouts</div>
+
+                    <div class="level" data-level="6">🟡 Level 6 — Athlete<br>50–74 workouts</div>
+
+                    <div class="level" data-level="7">⚡ Level 7 — Elite<br>75–99 workouts</div>
+
+                    <div class="level" data-level="8">💎 Level 8 — Pro<br>100–149 workouts</div>
+
+                    <div class="level" data-level="9">👑 Level 9 — Master<br>150–199 workouts</div>
+
+                    <div class="level" data-level="10">🏆 Level 10 — IronCore Legend<br>200+ workouts</div>
+
+                </div>
+
+            </section>
+
+            <!-- WORKOUT -->
+            <section id="workout" class="card">
+
+                <h2>🏋️ My Workout</h2>
+
+                <h3>Today's Training</h3>
+
+                <p>
+                    Full Body Strength Session
+                </p>
+
+                <ul>
+                    <li>Warm-up</li>
+                    <li>Strength exercises</li>
+                    <li>Core training</li>
+                    <li>Cool-down</li>
+                </ul>
+
+                <button
+                    id="complete-workout"
+                    class="complete-btn"
+                >
+                    ✅ Mark Today's Workout Complete
+                </button>
+
+                <p style="text-align:center;font-size:13px;color:#777;">
+                    ⚠️ Member-reported activity:
+                    this button records the workout based on the
+                    member's report. Physical activity is not
+                    automatically verified.
+                </p>
+
+            </section>
+
+            <!-- WEEKLY CHALLENGE -->
+            <section class="card">
+
+                <h2>🔥 Weekly Challenge</h2>
+
+                <h3>Complete 4 Workouts</h3>
 
                 <p>
                     Progress:
-                    <strong id="challenge-count">
-                        0
-                    </strong>
-                    / 4
+                    <strong id="weekly-count">0</strong>/4
                 </p>
 
-
                 <div class="progress-bar">
-
                     <div
+                        id="weekly-progress"
                         class="progress-fill"
-                        id="challenge-progress">
-                    </div>
-
+                    ></div>
                 </div>
 
-            </div>
+                <p id="challenge-message">
+                    Start your weekly challenge!
+                </p>
 
-        </section>
+            </section>
 
+            <!-- GOALS -->
+            <section id="goals" class="card">
 
-        <!-- REWARDS -->
+                <h2>🎯 My Goals</h2>
 
-        <section
-            class="card"
-            id="rewards">
+                <ul>
+                    <li>Build consistency</li>
+                    <li>Complete regular workouts</li>
+                    <li>Improve fitness skills</li>
+                    <li>Reach IronCore Legend</li>
+                </ul>
 
-            <h2>
-                🎁 Member Rewards
-            </h2>
+            </section>
 
+            <!-- REWARDS -->
+            <section id="rewards" class="card">
 
-            <p>
-                Click a reward to see its status.
-            </p>
+                <h2>🎁 Member Rewards</h2>
 
-
-            <div class="reward-grid">
-
-
-                <div
-                    class="reward locked"
-                    id="reward-first"
-                    onclick="showReward('first')">
-
-                    <div class="reward-icon">
-                        🥉
-                    </div>
-
-                    <h3>
-                        First Step
-                    </h3>
-
-                    <p>
-                        Complete your first workout.
-                    </p>
+                <div class="rewards">
 
                     <div
-                        class="reward-status"
-                        id="status-first">
-
-                        🔒 Locked
-
+                        class="reward"
+                        id="reward-first"
+                        onclick="showReward('first')"
+                    >
+                        <div class="reward-icon">🥉</div>
+                        <strong>First Step</strong>
+                        <p>Complete 1 workout</p>
+                        <span>🔒 Locked</span>
                     </div>
-
-                </div>
-
-
-                <div
-                    class="reward locked"
-                    id="reward-consistency"
-                    onclick="showReward('consistency')">
-
-                    <div class="reward-icon">
-                        🔥
-                    </div>
-
-                    <h3>
-                        Consistency
-                    </h3>
-
-                    <p>
-                        Complete 4 workouts this week.
-                    </p>
 
                     <div
-                        class="reward-status"
-                        id="status-consistency">
-
-                        🔒 Locked
-
+                        class="reward"
+                        id="reward-consistency"
+                        onclick="showReward('consistency')"
+                    >
+                        <div class="reward-icon">🔥</div>
+                        <strong>Consistency</strong>
+                        <p>Complete 4 weekly workouts</p>
+                        <span>🔒 Locked</span>
                     </div>
-
-                </div>
-
-
-                <div
-                    class="reward locked"
-                    id="reward-warrior"
-                    onclick="showReward('warrior')">
-
-                    <div class="reward-icon">
-                        🏆
-                    </div>
-
-                    <h3>
-                        Warrior
-                    </h3>
-
-                    <p>
-                        Reach 20 completed workouts.
-                    </p>
 
                     <div
-                        class="reward-status"
-                        id="status-warrior">
-
-                        🔒 Locked
-
+                        class="reward"
+                        id="reward-warrior"
+                        onclick="showReward('warrior')"
+                    >
+                        <div class="reward-icon">⚔️</div>
+                        <strong>Warrior</strong>
+                        <p>Complete 20 workouts</p>
+                        <span>🔒 Locked</span>
                     </div>
 
                 </div>
 
+            </section>
 
-            </div>
-
-        </section>
-
-
-        <!-- MEMBER TIP -->
-
-        <section class="card">
-
-            <h2>
-                💡 Member Tip
-            </h2>
-
-
-            <div class="tip">
+            <!-- DEMO NOTICE -->
+            <section class="demo-notice">
 
                 <strong>
-                    Consistency beats intensity.
+                    🔒 MEMBERS ONLY • STUDENT DEMO PROJECT
                 </strong>
 
                 <p>
-                    Focus on improving a little every day
-                    rather than trying to do everything
-                    at once.
+                    IronCore Fitness is a fictional student project
+                    and is not a real gym.
                 </p>
 
-            </div>
+                <p>
+                    Workout progress is member-reported and is not
+                    automatically verified by IronCore.
+                </p>
 
-        </section>
+            </section>
 
+        </main>
 
-        <!-- BUTTONS -->
-
-        <div class="button-area">
-
-            <a
-                href="index.html"
-                class="member-button">
-
-                🌐 Back to Website
-
-            </a>
-
-
-            <button
-                id="logout-button"
-                class="member-button logout-button">
-
-                🚪 Logout
-
-            </button>
-
-        </div>
-
-
-        <p class="demo-notice">
-
-            🔒 Members Only • STUDENT DEMO PROJECT
-
-            <br><br>
-
-            IronCore Fitness is a fictional student project
-            and not a real gym.
-
-            <br><br>
-
-            Workout progress is member-reported and is not
-            automatically verified by IronCore.
-
-        </p>
-
-    </main>
-
-
-    <script src="auth.js"></script>
-
+    </div>
 
     <script>
 
-        let currentEmail = "";
-
+        let currentUser = null;
         let memberData = {
             workouts: 0,
             xp: 0,
             streak: 0,
-            weeklyWorkouts: 0
+            weekly_workouts: 0,
+            avatar_path: null
         };
 
-
         const levels = [
-
             {
                 level: 1,
                 name: "Beginner",
-                icon: "🟢",
                 min: 0,
-                max: 4
+                max: 4,
+                description: "Start your journey!"
             },
-
             {
                 level: 2,
                 name: "Starter",
-                icon: "🔵",
                 min: 5,
-                max: 9
+                max: 9,
+                description: "You're building momentum!"
             },
-
             {
                 level: 3,
                 name: "Trainee",
-                icon: "🟣",
                 min: 10,
-                max: 19
+                max: 19,
+                description: "You're becoming consistent!"
             },
-
             {
                 level: 4,
                 name: "Warrior",
-                icon: "🟠",
                 min: 20,
-                max: 34
+                max: 34,
+                description: "Strong progress!"
             },
-
             {
                 level: 5,
                 name: "Fighter",
-                icon: "🔴",
                 min: 35,
-                max: 49
+                max: 49,
+                description: "You're getting serious!"
             },
-
             {
                 level: 6,
                 name: "Athlete",
-                icon: "🟡",
                 min: 50,
-                max: 74
+                max: 74,
+                description: "Athlete mode activated!"
             },
-
             {
                 level: 7,
                 name: "Elite",
-                icon: "⚡",
                 min: 75,
-                max: 99
+                max: 99,
+                description: "Elite consistency!"
             },
-
             {
                 level: 8,
                 name: "Pro",
-                icon: "💎",
                 min: 100,
-                max: 149
+                max: 149,
+                description: "Professional-level commitment!"
             },
-
             {
                 level: 9,
                 name: "Master",
-                icon: "👑",
                 min: 150,
-                max: 199
+                max: 199,
+                description: "Master of consistency!"
             },
-
             {
                 level: 10,
                 name: "IronCore Legend",
-                icon: "🏆",
                 min: 200,
-                max: Infinity
+                max: Infinity,
+                description: "You've reached the highest level!"
             }
-
         ];
 
+        async function loadMemberData() {
 
-        async function checkLogin() {
+            const { data, error } = await supabaseClient
+                .from("member_progress")
+                .select("*")
+                .eq("user_id", currentUser.id)
+                .maybeSingle();
 
-            const {
-                data: { session }
-            } = await supabaseClient.auth.getSession();
-
-
-            if (!session) {
-
-                window.location.href =
-                    "login.html";
-
+            if (error) {
+                console.error(error);
+                alert("Could not load your cloud progress.");
                 return;
-
             }
 
+            if (data) {
+                memberData = data;
+            } else {
 
-            currentEmail =
-                session.user.email;
+                const newData = {
+                    user_id: currentUser.id,
+                    workouts: 0,
+                    xp: 0,
+                    streak: 0,
+                    weekly_workouts: 0
+                };
 
+                const { data: created, error: createError } =
+                    await supabaseClient
+                        .from("member_progress")
+                        .insert(newData)
+                        .select()
+                        .single();
 
-            document.getElementById(
-                "welcome-message"
-            ).textContent =
-                "Welcome back, " +
-                currentEmail +
-                "!";
-
-
-            document.getElementById(
-                "profile-email"
-            ).textContent =
-                currentEmail;
-
-
-            loadMemberData();
-
-            setupAvatar();
-
-            updateDashboard();
-
-        }
-
-
-        function getStorageKey() {
-
-            return "ironcoreMemberData_" +
-                currentEmail;
-
-        }
-
-
-        function loadMemberData() {
-
-            const savedData =
-                localStorage.getItem(
-                    getStorageKey()
-                );
-
-
-            if (savedData) {
-
-                try {
-
-                    memberData =
-                        JSON.parse(savedData);
-
-                } catch (error) {
-
-                    memberData = {
-                        workouts: 0,
-                        xp: 0,
-                        streak: 0,
-                        weeklyWorkouts: 0
-                    };
-
+                if (createError) {
+                    console.error(createError);
+                    alert("Could not create your member progress.");
+                    return;
                 }
 
+                memberData = created;
             }
 
+            updateDashboard();
+            await loadAvatar();
         }
 
+        async function saveMemberData() {
 
-        function saveMemberData() {
+            const { error } = await supabaseClient
+                .from("member_progress")
+                .update({
+                    workouts: memberData.workouts,
+                    xp: memberData.xp,
+                    streak: memberData.streak,
+                    weekly_workouts: memberData.weekly_workouts,
+                    avatar_path: memberData.avatar_path,
+                    updated_at: new Date().toISOString()
+                })
+                .eq("user_id", currentUser.id);
 
-            localStorage.setItem(
-                getStorageKey(),
-                JSON.stringify(memberData)
-            );
+            if (error) {
+                console.error(error);
+                alert("Your progress could not be saved.");
+                return false;
+            }
 
+            return true;
         }
-
 
         function getCurrentLevel() {
 
-            let currentLevel =
-                levels[0];
+            for (let i = levels.length - 1; i >= 0; i--) {
 
-
-            for (
-                let i = 0;
-                i < levels.length;
-                i++
-            ) {
-
-                if (
-                    memberData.workouts >=
-                    levels[i].min
-                ) {
-
-                    currentLevel =
-                        levels[i];
-
+                if (memberData.workouts >= levels[i].min) {
+                    return levels[i];
                 }
 
             }
 
-
-            return currentLevel;
-
+            return levels[0];
         }
-
 
         function updateDashboard() {
 
-            document.getElementById(
-                "workout-count"
-            ).textContent =
+            document.getElementById("workouts").textContent =
                 memberData.workouts;
 
+            document.getElementById("streak").textContent =
+                memberData.streak;
 
-            document.getElementById(
-                "progress-workouts"
-            ).textContent =
-                memberData.workouts;
-
-
-            document.getElementById(
-                "xp-points"
-            ).textContent =
+            document.getElementById("xp").textContent =
                 memberData.xp;
 
+            const level = getCurrentLevel();
 
-            document.getElementById(
-                "streak-count"
-            ).textContent =
-                memberData.streak;
+            document.getElementById("current-level").textContent =
+                "Level " + level.level + " — " + level.name;
 
+            document.getElementById("level-description").textContent =
+                level.description;
 
-            document.getElementById(
-                "progress-streak"
-            ).textContent =
-                memberData.streak;
+            document.querySelectorAll(".level").forEach(item => {
+                item.classList.remove("active");
 
-
-            updateLevel();
-
-            updateChallenge();
-
-            updateRewards();
-
-        }
-
-
-        function updateLevel() {
-
-            const currentLevel =
-                getCurrentLevel();
-
-
-            document.getElementById(
-                "level-icon"
-            ).textContent =
-                currentLevel.icon;
-
-
-            document.getElementById(
-                "level-name"
-            ).textContent =
-                "Level " +
-                currentLevel.level +
-                " — " +
-                currentLevel.name;
-
-
-            document.getElementById(
-                "profile-level"
-            ).textContent =
-                currentLevel.name;
-
-
-            if (
-                currentLevel.max === Infinity
-            ) {
-
-                document.getElementById(
-                    "level-requirement"
-                ).textContent =
-                    currentLevel.min +
-                    "+ workouts";
-
-            } else {
-
-                document.getElementById(
-                    "level-requirement"
-                ).textContent =
-                    currentLevel.min +
-                    "–" +
-                    currentLevel.max +
-                    " workouts";
-
-            }
-
-
-            let progress = 0;
-
-
-            if (
-                currentLevel.max === Infinity
-            ) {
-
-                progress = 100;
-
-            } else {
-
-                const range =
-                    currentLevel.max -
-                    currentLevel.min +
-                    1;
-
-
-                const completed =
-                    memberData.workouts -
-                    currentLevel.min;
-
-
-                progress =
-                    Math.max(
-                        0,
-                        Math.min(
-                            100,
-                            (
-                                completed /
-                                range
-                            ) * 100
-                        )
-                    );
-
-            }
-
-
-            document.getElementById(
-                "level-progress-fill"
-            ).style.width =
-                progress + "%";
-
-
-            document.getElementById(
-                "level-progress-text"
-            ).textContent =
-                memberData.workouts +
-                " workouts";
-
-
-            levels.forEach(function(level) {
-
-                const item =
-                    document.getElementById(
-                        "level-item-" +
-                        level.level
-                    );
-
-
-                if (item) {
-
-                    item.classList.remove(
-                        "active"
-                    );
-
-
-                    if (
-                        level.level ===
-                        currentLevel.level
-                    ) {
-
-                        item.classList.add(
-                            "active"
-                        );
-
-                    }
-
+                if (
+                    Number(item.dataset.level) === level.level
+                ) {
+                    item.classList.add("active");
                 }
-
             });
 
+            const weekly =
+                Math.min(memberData.weekly_workouts, 4);
+
+            document.getElementById("weekly-count").textContent =
+                weekly;
+
+            document.getElementById("weekly-progress").style.width =
+                (weekly / 4 * 100) + "%";
+
+            if (weekly >= 4) {
+                document.getElementById("challenge-message").textContent =
+                    "🏆 Weekly Challenge Complete!";
+            } else {
+                document.getElementById("challenge-message").textContent =
+                    "Keep going — you're doing great!";
+            }
+
+            updateRewards();
         }
 
+        async function completeWorkout() {
 
-        function updateChallenge() {
+            const button =
+                document.getElementById("complete-workout");
 
-            const completed =
-                Math.min(
-                    memberData.weeklyWorkouts,
-                    4
-                );
+            button.disabled = true;
+            button.textContent = "⏳ Saving...";
 
+            memberData.workouts += 1;
+            memberData.xp += 100;
+            memberData.streak += 1;
+            memberData.weekly_workouts += 1;
 
-            const percentage =
-                (completed / 4) * 100;
+            const saved = await saveMemberData();
 
+            if (saved) {
 
-            document.getElementById(
-                "challenge-count"
-            ).textContent =
-                completed;
+                updateDashboard();
 
+                button.textContent =
+                    "✅ Workout Saved to Cloud";
 
-            document.getElementById(
-                "challenge-progress"
-            ).style.width =
-                percentage + "%";
+            } else {
 
+                button.disabled = false;
+                button.textContent =
+                    "✅ Mark Today's Workout Complete";
+
+            }
         }
-
 
         function updateRewards() {
 
-            const firstReward =
-                document.getElementById(
-                    "reward-first"
-                );
+            const first =
+                document.getElementById("reward-first");
 
+            const consistency =
+                document.getElementById("reward-consistency");
 
-            const firstStatus =
-                document.getElementById(
-                    "status-first"
-                );
+            const warrior =
+                document.getElementById("reward-warrior");
 
+            if (memberData.workouts >= 1) {
 
-            if (
-                memberData.workouts >= 1
-            ) {
-
-                firstReward.classList.remove(
-                    "locked"
-                );
-
-                firstReward.classList.add(
-                    "unlocked"
-                );
-
-                firstStatus.textContent =
+                first.classList.add("unlocked");
+                first.querySelector("span").textContent =
                     "✅ Unlocked";
 
             } else {
 
-                firstReward.classList.add(
-                    "locked"
-                );
-
-                firstReward.classList.remove(
-                    "unlocked"
-                );
-
-                firstStatus.textContent =
+                first.classList.remove("unlocked");
+                first.querySelector("span").textContent =
                     "🔒 Locked";
 
             }
 
+            if (memberData.weekly_workouts >= 4) {
 
-            const consistencyReward =
-                document.getElementById(
-                    "reward-consistency"
-                );
-
-
-            const consistencyStatus =
-                document.getElementById(
-                    "status-consistency"
-                );
-
-
-            if (
-                memberData.weeklyWorkouts >= 4
-            ) {
-
-                consistencyReward.classList.remove(
-                    "locked"
-                );
-
-                consistencyReward.classList.add(
-                    "unlocked"
-                );
-
-                consistencyStatus.textContent =
+                consistency.classList.add("unlocked");
+                consistency.querySelector("span").textContent =
                     "✅ Unlocked";
 
             } else {
 
-                consistencyReward.classList.add(
-                    "locked"
-                );
-
-                consistencyReward.classList.remove(
-                    "unlocked"
-                );
-
-                consistencyStatus.textContent =
+                consistency.classList.remove("unlocked");
+                consistency.querySelector("span").textContent =
                     "🔒 Locked";
 
             }
 
+            if (memberData.workouts >= 20) {
 
-            const warriorReward =
-                document.getElementById(
-                    "reward-warrior"
-                );
-
-
-            const warriorStatus =
-                document.getElementById(
-                    "status-warrior"
-                );
-
-
-            if (
-                memberData.workouts >= 20
-            ) {
-
-                warriorReward.classList.remove(
-                    "locked"
-                );
-
-                warriorReward.classList.add(
-                    "unlocked"
-                );
-
-                warriorStatus.textContent =
+                warrior.classList.add("unlocked");
+                warrior.querySelector("span").textContent =
                     "✅ Unlocked";
 
             } else {
 
-                warriorReward.classList.add(
-                    "locked"
-                );
-
-                warriorReward.classList.remove(
-                    "unlocked"
-                );
-
-                warriorStatus.textContent =
+                warrior.classList.remove("unlocked");
+                warrior.querySelector("span").textContent =
                     "🔒 Locked";
 
             }
-
         }
-
-
-        function completeWorkout() {
-
-            const button =
-                document.getElementById(
-                    "complete-workout"
-                );
-
-
-            memberData.workouts += 1;
-
-            memberData.xp += 100;
-
-            memberData.streak += 1;
-
-            memberData.weeklyWorkouts += 1;
-
-
-            saveMemberData();
-
-            updateDashboard();
-
-
-            button.textContent =
-                "✅ Workout Recorded!";
-
-
-            button.disabled = true;
-
-
-            setTimeout(function() {
-
-                button.textContent =
-                    "🏋️ Complete Another Workout";
-
-                button.disabled = false;
-
-            }, 2000);
-
-        }
-
 
         function showReward(type) {
 
             if (type === "first") {
 
-                if (
-                    memberData.workouts >= 1
-                ) {
-
-                    alert(
-                        "🥉 First Step unlocked!\\n\\n" +
-                        "You completed your first reported workout."
-                    );
-
+                if (memberData.workouts >= 1) {
+                    alert("🥉 First Step Reward Unlocked!");
                 } else {
-
-                    alert(
-                        "🔒 First Step is locked.\\n\\n" +
-                        "Complete your first reported workout to unlock it."
-                    );
-
+                    alert("🔒 Complete 1 workout to unlock this reward.");
                 }
 
             }
-
 
             if (type === "consistency") {
 
-                if (
-                    memberData.weeklyWorkouts >= 4
-                ) {
-
-                    alert(
-                        "🔥 Consistency reward unlocked!\\n\\n" +
-                        "You completed 4 reported workouts this week."
-                    );
-
+                if (memberData.weekly_workouts >= 4) {
+                    alert("🔥 Consistency Reward Unlocked!");
                 } else {
-
-                    alert(
-                        "🔒 Consistency is locked.\\n\\n" +
-                        "Complete " +
-                        (
-                            4 -
-                            memberData.weeklyWorkouts
-                        ) +
-                        " more reported workout(s) this week."
-                    );
-
+                    alert("🔒 Complete 4 weekly workouts to unlock this reward.");
                 }
 
             }
-
 
             if (type === "warrior") {
 
-                if (
-                    memberData.workouts >= 20
-                ) {
-
-                    alert(
-                        "🏆 Warrior reward unlocked!\\n\\n" +
-                        "You reached 20 reported workouts."
-                    );
-
+                if (memberData.workouts >= 20) {
+                    alert("⚔️ Warrior Reward Unlocked!");
                 } else {
-
-                    alert(
-                        "🔒 Warrior is locked.\\n\\n" +
-                        "You need " +
-                        (
-                            20 -
-                            memberData.workouts
-                        ) +
-                        " more reported workout(s)."
-                    );
-
+                    alert("🔒 Complete 20 workouts to unlock this reward.");
                 }
 
             }
-
         }
 
+        async function loadAvatar() {
 
-        function setupAvatar() {
+            if (!memberData.avatar_path) {
+                return;
+            }
 
-            const avatar =
-                document.getElementById(
-                    "avatar"
-                );
+            const { data, error } =
+                await supabaseClient.storage
+                    .from("avatars")
+                    .createSignedUrl(
+                        memberData.avatar_path,
+                        3600
+                    );
 
+            if (error) {
+                console.error(error);
+                return;
+            }
 
-            const avatarInput =
-                document.getElementById(
-                    "avatar-input"
-                );
+            if (data && data.signedUrl) {
 
-
-            const avatarKey =
-                "ironcoreAvatar_" +
-                currentEmail;
-
-
-            const savedAvatar =
-                localStorage.getItem(
-                    avatarKey
-                );
-
-
-            if (savedAvatar) {
+                const avatar =
+                    document.getElementById("avatar");
 
                 avatar.innerHTML = "";
 
                 avatar.style.backgroundImage =
-                    "url('" +
-                    savedAvatar +
-                    "')";
-
-                avatar.style.backgroundSize =
-                    "cover";
-
-                avatar.style.backgroundPosition =
-                    "center";
-
-                avatar.style.backgroundRepeat =
-                    "no-repeat";
+                    "url('" + data.signedUrl + "')";
 
             }
-
-
-            avatar.onclick =
-                function() {
-
-                    avatarInput.click();
-
-                };
-
-
-            avatarInput.onchange =
-                function(event) {
-
-                    const file =
-                        event.target.files[0];
-
-
-                    if (!file) {
-                        return;
-                    }
-
-
-                    if (
-                        !file.type.startsWith(
-                            "image/"
-                        )
-                    ) {
-
-                        alert(
-                            "Please select an image."
-                        );
-
-                        return;
-
-                    }
-
-
-                    const reader =
-                        new FileReader();
-
-
-                    reader.onload =
-                        function(e) {
-
-                            const imageData =
-                                e.target.result;
-
-
-                            avatar.innerHTML =
-                                "";
-
-
-                            avatar.style.backgroundImage =
-                                "url('" +
-                                imageData +
-                                "')";
-
-
-                            avatar.style.backgroundSize =
-                                "cover";
-
-
-                            avatar.style.backgroundPosition =
-                                "center";
-
-
-                            avatar.style.backgroundRepeat =
-                                "no-repeat";
-
-
-                            localStorage.setItem(
-                                avatarKey,
-                                imageData
-                            );
-
-                        };
-
-
-                    reader.readAsDataURL(file);
-
-                };
-
         }
 
+        async function uploadAvatar(file) {
+
+            if (!file) return;
+
+            if (!file.type.startsWith("image/")) {
+                alert("Please select an image.");
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Please choose an image smaller than 5 MB.");
+                return;
+            }
+
+            const extension =
+                file.name.split(".").pop().toLowerCase();
+
+            const path =
+                currentUser.id + "/avatar." + extension;
+
+            const avatar =
+                document.getElementById("avatar");
+
+            avatar.innerHTML = "⏳";
+
+            const { error } =
+                await supabaseClient.storage
+                    .from("avatars")
+                    .upload(path, file, {
+                        upsert: true,
+                        contentType: file.type
+                    });
+
+            if (error) {
+
+                console.error(error);
+                alert("Avatar upload failed.");
+                avatar.innerHTML = "👤";
+                return;
+            }
+
+            memberData.avatar_path = path;
+
+            const saved = await saveMemberData();
+
+            if (!saved) {
+                avatar.innerHTML = "👤";
+                return;
+            }
+
+            await loadAvatar();
+        }
+
+        async function startMemberArea() {
+
+            const {
+                data: { session },
+                error
+            } = await supabaseClient.auth.getSession();
+
+            if (error || !session) {
+
+                window.location.href = "login.html";
+                return;
+            }
+
+            currentUser = session.user;
+
+            document.getElementById("user-email").textContent =
+                currentUser.email;
+
+            document.getElementById("profile-email").textContent =
+                currentUser.email;
+
+            document.getElementById("loading").style.display =
+                "none";
+
+            document.getElementById("member-content").style.display =
+                "block";
+
+            await loadMemberData();
+        }
 
         document
-            .getElementById(
-                "complete-workout"
-            )
-            .addEventListener(
-                "click",
-                completeWorkout
-            );
-
+            .getElementById("complete-workout")
+            .addEventListener("click", completeWorkout);
 
         document
-            .getElementById(
-                "logout-button"
-            )
-            .addEventListener(
-                "click",
-                async function() {
+            .getElementById("avatar")
+            .addEventListener("click", function () {
 
-                    await supabaseClient.auth.signOut();
+                document
+                    .getElementById("avatar-input")
+                    .click();
 
-                    window.location.href =
-                        "login.html";
+            });
 
-                }
-            );
+        document
+            .getElementById("avatar-input")
+            .addEventListener("change", function (event) {
 
+                const file = event.target.files[0];
 
-        checkLogin();
+                uploadAvatar(file);
+
+            });
+
+        document
+            .getElementById("logout-btn")
+            .addEventListener("click", async function () {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href = "login.html";
+
+            });
+
+        startMemberArea();
 
     </script>
 
 </body>
-
 </html>
