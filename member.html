@@ -614,9 +614,17 @@
                 return;
             }
 
-            if (data) {
-                memberData = data;
-            } else {
+           if (data) {
+    memberData = data;
+
+    if (!memberData.last_workout_date) {
+        memberData.last_workout_date = null;
+    }
+
+    if (!memberData.week_start_date) {
+        memberData.week_start_date = null;
+    }
+} else {
 
                 const newData = {
                     user_id: currentUser.id,
