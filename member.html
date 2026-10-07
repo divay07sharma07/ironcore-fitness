@@ -518,12 +518,14 @@
 
         let currentUser = null;
         let memberData = {
-            workouts: 0,
-            xp: 0,
-            streak: 0,
-            weekly_workouts: 0,
-            avatar_path: null
-        };
+    workouts: 0,
+    xp: 0,
+    streak: 0,
+    weekly_workouts: 0,
+    last_workout_date: null,
+    week_start_date: null,
+    avatar_path: null
+};
 
         const levels = [
             {
@@ -641,6 +643,7 @@
             }
 
             updateDashboard();
+            updateWorkoutButton();
             await loadAvatar();
         }
 
@@ -652,8 +655,10 @@
                     workouts: memberData.workouts,
                     xp: memberData.xp,
                     streak: memberData.streak,
-                    weekly_workouts: memberData.weekly_workouts,
-                    avatar_path: memberData.avatar_path,
+                                    weekly_workouts: memberData.weekly_workouts,
+                last_workout_date: memberData.last_workout_date,
+                week_start_date: memberData.week_start_date,
+                avatar_path: memberData.avatar_path,
                     updated_at: new Date().toISOString()
                 })
                 .eq("user_id", currentUser.id);
@@ -729,37 +734,129 @@
             updateRewards();
         }
 
-        async function completeWorkout() {
+                function updateWorkoutButton() {
 
             const button =
                 document.getElementById("complete-workout");
 
-            button.disabled = true;
-            button.textContent = "⏳ Saving...";
+            const today =
+                new Date().toLocaleDateString("en-CA");
 
-            memberData.workouts += 1;
-            memberData.xp += 100;
-            memberData.streak += 1;
-            memberData.weekly_workouts += 1;
+            if (memberData.last_workout_date === today) {
 
-            const saved = await saveMemberData();
-
-            if (saved) {
-
-                updateDashboard();
+                button.disabled = true;
 
                 button.textContent =
-                    "✅ Workout Saved to Cloud";
+                    "✅ Today's Workout Already Saved";
 
             } else {
 
                 button.disabled = false;
+
                 button.textContent =
                     "✅ Mark Today's Workout Complete";
-
             }
         }
 
+       async function completeWorkout() {
+
+    const button =
+        document.getElementById("complete-workout");
+
+    const today =
+        new Date().toLocaleDateString("en-CA");
+
+    // Prevent more than one workout on the same day
+    if (memberData.last_workout_date === today) {
+
+        button.disabled = true;
+        button.textContent =
+            "✅ Today's Workout Already Saved";
+
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "⏳ Saving...";
+
+    const lastDate = memberData.last_workout_date;
+
+    // Calculate whether this is a consecutive day
+    let newStreak = 1;
+
+    if (lastDate) {
+
+        const previous =
+            new Date(lastDate + "T00:00:00");
+
+        const current =
+            new Date(today + "T00:00:00");
+
+        const difference =
+            Math.round(
+                (current - previous) /
+                (1000 * 60 * 60 * 24)
+            );
+
+        if (difference === 1) {
+            newStreak = memberData.streak + 1;
+        } else {
+            newStreak = 1;
+        }
+    }
+
+    // Check the current week
+    const currentDate =
+        new Date(today + "T00:00:00");
+
+    const dayOfWeek =
+        currentDate.getDay();
+
+    const mondayOffset =
+        dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+
+    const monday =
+        new Date(currentDate);
+
+    monday.setDate(
+        currentDate.getDate() - mondayOffset
+    );
+
+    const weekStart =
+        monday.toLocaleDateString("en-CA");
+
+    // Reset weekly count when a new week begins
+    if (memberData.week_start_date !== weekStart) {
+        memberData.weekly_workouts = 0;
+        memberData.week_start_date = weekStart;
+    }
+
+    // Save today's workout
+    memberData.workouts += 1;
+    memberData.xp += 100;
+    memberData.streak = newStreak;
+    memberData.weekly_workouts += 1;
+    memberData.last_workout_date = today;
+
+    const saved = await saveMemberData();
+
+    if (saved) {
+
+        updateDashboard();
+
+        button.disabled = true;
+
+        button.textContent =
+            "✅ Today's Workout Already Saved";
+
+    } else {
+
+        button.disabled = false;
+
+        button.textContent =
+            "✅ Mark Today's Workout Complete";
+    }
+}
         function updateRewards() {
 
             const first =
