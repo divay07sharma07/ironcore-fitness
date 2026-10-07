@@ -627,12 +627,14 @@
 } else {
 
                 const newData = {
-                    user_id: currentUser.id,
-                    workouts: 0,
-                    xp: 0,
-                    streak: 0,
-                    weekly_workouts: 0
-                };
+    user_id: currentUser.id,
+    workouts: 0,
+    xp: 0,
+    streak: 0,
+    weekly_workouts: 0,
+    last_workout_date: null,
+    week_start_date: null
+};
 
                 const { data: created, error: createError } =
                     await supabaseClient
