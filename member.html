@@ -157,81 +157,81 @@
         }
 
         .member-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    background: white;
-    padding: 15px 20px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
 
-.member-logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #345B63;
-}
+        .member-logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #345B63;
+        }
 
-.member-nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
+        .member-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
-.member-nav-links a {
-    text-decoration: none;
-    color: #345B63;
-    font-weight: bold;
-}
+        .member-nav-links a {
+            text-decoration: none;
+            color: #345B63;
+            font-weight: bold;
+        }
 
-.profile-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
+        .profile-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
 
-.profile-card h2 {
-    color: #345B63;
-    margin-top: 0;
-}
-
-        .profile-avatar {
-    width: 80px;
-    height: 80px;
-    margin: 15px auto 20px;
-    border-radius: 50%;
-    background: #E8F1F2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-}
+        .profile-card h2 {
+            color: #345B63;
+            margin-top: 0;
+        }
 
         .profile-avatar {
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
+            width: 80px;
+            height: 80px;
+            margin: 15px auto 10px;
+            border-radius: 50%;
+            background: #E8F1F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-.profile-avatar:hover {
-    transform: scale(1.05);
-}
-
-.account-active {
-    color: green;
-    font-weight: bold;
-}
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
 
         .avatar-hint {
-    text-align: center;
-    font-size: 13px;
-    color: #666;
-    margin-top: -10px;
-    margin-bottom: 20px;
-}
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .account-active {
+            color: green;
+            font-weight: bold;
+        }
 
         .demo-notice {
             text-align: center;
@@ -247,62 +247,76 @@
 
     <main class="member-page">
 
+        <!-- NAVIGATION -->
+
         <nav class="member-nav">
 
-    <div class="member-logo">
-        IRONCORE
-    </div>
+            <div class="member-logo">
+                IRONCORE
+            </div>
 
-    <div class="member-nav-links">
-        <a href="#profile">👤 Profile</a>
-        <a href="#workout">🏋️ Workout</a>
-        <a href="#progress">📊 Progress</a>
-        <a href="#goals">🎯 Goals</a>
-        <a href="#rewards">🎁 Rewards</a>
-    </div>
+            <div class="member-nav-links">
+                <a href="#profile">👤 Profile</a>
+                <a href="#workout">🏋️ Workout</a>
+                <a href="#progress">📊 Progress</a>
+                <a href="#goals">🎯 Goals</a>
+                <a href="#rewards">🎁 Rewards</a>
+            </div>
 
-</nav>
+        </nav>
 
-        <!-- MEMBER HEADER -->
+
+        <!-- PROFILE -->
 
         <section class="profile-card" id="profile">
 
-    <h2>👤 My Profile</h2>
+            <h2>👤 My Profile</h2>
 
-    <div class="profile-avatar" id="avatar">
-    👤
-</div>
+            <div class="profile-avatar" id="avatar">
+                👤
+            </div>
 
-            <p class="avatar-hint">Click your avatar to change photo</p>
+            <p class="avatar-hint">
+                Click your avatar to change photo
+            </p>
 
-<input type="file" id="avatar-input" accept="image/*" hidden>
+            <input
+                type="file"
+                id="avatar-input"
+                accept="image/*"
+                hidden
+            >
 
-    <p>
-        <strong>Email:</strong>
-        <span id="profile-email">Loading...</span>
-    </p>
+            <p>
+                <strong>Email:</strong>
+                <span id="profile-email">Loading...</span>
+            </p>
 
-    <p>
-        <strong>Membership:</strong>
-        IronCore Demo Member
-    </p>
+            <p>
+                <strong>Membership:</strong>
+                IronCore Demo Member
+            </p>
 
-    <p>
-        <strong>Member Level:</strong>
-        Warrior 🏅
-    </p>
+            <p>
+                <strong>Member Level:</strong>
+                Warrior 🏅
+            </p>
 
-    <p>
-        <strong>XP Points:</strong>
-        1,250 ⭐
-    </p>
+            <p>
+                <strong>XP Points:</strong>
+                1,250 ⭐
+            </p>
 
-    <p>
-        <strong>Account Status:</strong>
-        <span class="account-active">● Active</span>
-    </p>
+            <p>
+                <strong>Account Status:</strong>
+                <span class="account-active">● Active</span>
+            </p>
 
-</section>
+        </section>
+
+
+        <!-- MEMBER HEADER -->
+
         <section class="member-header">
 
             <h1>IRONCORE MEMBER SPACE</h1>
@@ -318,9 +332,11 @@
         </section>
 
 
-        <!-- MEMBER STATS -->
+        <!-- PROGRESS -->
 
-        <h2 class="section-title" id="progress">🏆 Your Progress</h2>
+        <h2 class="section-title" id="progress">
+            🏆 Your Progress
+        </h2>
 
         <section class="cards">
 
@@ -380,7 +396,9 @@
 
         <!-- WORKOUT -->
 
-        <h2 class="section-title" id="workout">🏋️ My Workout</h2>
+        <h2 class="section-title" id="workout">
+            🏋️ My Workout
+        </h2>
 
         <section class="cards">
 
@@ -421,7 +439,9 @@
 
         <!-- GOALS -->
 
-        <h2 class="section-title" id="goals">🎯 My Goals</h2>
+        <h2 class="section-title" id="goals">
+            🎯 My Goals
+        </h2>
 
         <section class="cards">
 
@@ -482,7 +502,10 @@
 
             <div class="progress-bar">
 
-                <div class="progress-fill" style="width:72%;"></div>
+                <div
+                    class="progress-fill"
+                    style="width:72%;">
+                </div>
 
             </div>
 
@@ -511,7 +534,10 @@
 
             <div class="progress-bar">
 
-                <div class="progress-fill" style="width:50%; background:white;"></div>
+                <div
+                    class="progress-fill"
+                    style="width:50%; background:white;">
+                </div>
 
             </div>
 
@@ -520,7 +546,9 @@
 
         <!-- REWARDS -->
 
-        <h2 class="section-title" id="rewards">🎁 Member Rewards</h2>
+        <h2 class="section-title" id="rewards">
+            🎁 Member Rewards
+        </h2>
 
         <section class="cards">
 
@@ -596,6 +624,8 @@
         </div>
 
 
+        <!-- DEMO NOTICE -->
+
         <p class="demo-notice">
             This Members Area is part of the IronCore Fitness student demo project.
             Progress, workouts, XP and rewards shown here are demonstration data.
@@ -604,39 +634,18 @@
     </main>
 
 
+    <!-- SUPABASE AUTH -->
+
     <script src="auth.js"></script>
+
 
     <script>
 
         const avatar = document.getElementById("avatar");
-const avatarInput = document.getElementById("avatar-input");
+        const avatarInput = document.getElementById("avatar-input");
 
-avatar.addEventListener("click", function () {
-    avatarInput.click();
-});
 
-        avatarInput.addEventListener("change", function (event) {
-
-    const file = event.target.files[0];
-
-    if (!file) {
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-        avatar.innerHTML = "";
-
-        avatar.style.backgroundImage = "url('" + e.target.result + "')";
-        avatar.style.backgroundSize = "cover";
-        avatar.style.backgroundPosition = "center";
-        avatar.style.backgroundRepeat = "no-repeat";
-    };
-
-    reader.readAsDataURL(file);
-
-});
+        // Check login and load member information
 
         async function checkLogin() {
 
@@ -654,15 +663,122 @@ avatar.addEventListener("click", function () {
             }
 
 
+            // Show logged-in email
+
             document.getElementById("welcome-message").textContent =
                 "Welcome back, " + session.user.email + "!";
 
-            document.getElementById("profile-email").textContent =
-    session.user.email;
 
+            document.getElementById("profile-email").textContent =
+                session.user.email;
+
+
+            // Create a separate avatar storage key for this account
+
+            const avatarKey =
+                "ironcoreAvatar_" + session.user.email;
+
+
+            // Load saved avatar
+
+            const savedAvatar =
+                localStorage.getItem(avatarKey);
+
+
+            if (savedAvatar) {
+
+                avatar.innerHTML = "";
+
+                avatar.style.backgroundImage =
+                    "url('" + savedAvatar + "')";
+
+                avatar.style.backgroundSize = "cover";
+
+                avatar.style.backgroundPosition = "center";
+
+                avatar.style.backgroundRepeat = "no-repeat";
+
+            }
+
+
+            // Open picture selector
+
+            avatar.addEventListener("click", function () {
+
+                avatarInput.click();
+
+            });
+
+
+            // When a new picture is selected
+
+            avatarInput.addEventListener("change", function (event) {
+
+                const file = event.target.files[0];
+
+
+                if (!file) {
+
+                    return;
+
+                }
+
+
+                // Make sure it is an image
+
+                if (!file.type.startsWith("image/")) {
+
+                    alert("Please select an image.");
+
+                    return;
+
+                }
+
+
+                const reader = new FileReader();
+
+
+                reader.onload = function (e) {
+
+                    const imageData =
+                        e.target.result;
+
+
+                    // Show image
+
+                    avatar.innerHTML = "";
+
+                    avatar.style.backgroundImage =
+                        "url('" + imageData + "')";
+
+                    avatar.style.backgroundSize =
+                        "cover";
+
+                    avatar.style.backgroundPosition =
+                        "center";
+
+                    avatar.style.backgroundRepeat =
+                        "no-repeat";
+
+
+                    // Save image in browser
+
+                    localStorage.setItem(
+                        avatarKey,
+                        imageData
+                    );
+
+                };
+
+
+                reader.readAsDataURL(file);
+
+            });
 
         }
 
+
+        // Logout
 
         document.getElementById("logout-button")
             .addEventListener("click", async function () {
@@ -673,6 +789,8 @@ avatar.addEventListener("click", function () {
 
             });
 
+
+        // Start login check
 
         checkLogin();
 
