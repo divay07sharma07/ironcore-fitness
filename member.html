@@ -662,15 +662,15 @@
             const { error } = await supabaseClient
                 .from("member_progress")
                 .update({
-                    workouts: memberData.workouts,
-                    xp: memberData.xp,
-                    streak: memberData.streak,
-                                    weekly_workouts: memberData.weekly_workouts,
-                last_workout_date: memberData.last_workout_date,
-                week_start_date: memberData.week_start_date,
-                avatar_path: memberData.avatar_path,
-                    updated_at: new Date().toISOString()
-                })
+    workouts: memberData.workouts,
+    xp: memberData.xp,
+    streak: memberData.streak,
+    weekly_workouts: memberData.weekly_workouts,
+    last_workout_date: memberData.last_workout_date,
+    week_start_date: memberData.week_start_date,
+    avatar_path: memberData.avatar_path,
+    updated_at: new Date().toISOString()
+})
                 .eq("user_id", currentUser.id);
 
             if (error) {
