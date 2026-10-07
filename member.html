@@ -5,36 +5,481 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Member Dashboard | IronCore Fitness</title>
+    <title>IronCore Members Area</title>
 
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #E8F1F2;
+            color: #222;
+        }
+
+        .member-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .member-header {
+            background: #345B63;
+            color: white;
+            padding: 35px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .member-header h1 {
+            margin: 0 0 10px;
+            font-size: 36px;
+        }
+
+        .member-header p {
+            font-size: 18px;
+            margin: 8px 0;
+        }
+
+        .member-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 18px;
+            background: white;
+            color: #345B63;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 30px 0 18px;
+            color: #345B63;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        .member-card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .member-card h3 {
+            margin-top: 0;
+            color: #345B63;
+        }
+
+        .big-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #345B63;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #345B63;
+            border-radius: 20px;
+        }
+
+        .challenge {
+            background: #345B63;
+            color: white;
+            padding: 25px;
+            border-radius: 18px;
+            margin-top: 25px;
+        }
+
+        .challenge h2 {
+            margin-top: 0;
+        }
+
+        .reward {
+            text-align: center;
+        }
+
+        .reward-icon {
+            font-size: 42px;
+        }
+
+        .tip {
+            background: white;
+            padding: 25px;
+            border-left: 6px solid #345B63;
+            border-radius: 12px;
+            margin-top: 25px;
+        }
+
+        .member-actions {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .member-actions button,
+        .member-actions a {
+            display: inline-block;
+            padding: 12px 22px;
+            margin: 6px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .website-button {
+            background: #345B63;
+            color: white;
+        }
+
+        .logout-button {
+            background: #ddd;
+            color: #222;
+        }
+
+        .demo-notice {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: 25px;
+        }
+
+    </style>
 </head>
 
 <body>
 
-    <div class="login-container">
+    <main class="member-page">
 
-        <div class="login-box">
+        <!-- MEMBER HEADER -->
 
-            <h1>IronCore Fitness</h1>
+        <section class="member-header">
 
-            <h2>Member Dashboard</h2>
+            <h1>IRONCORE MEMBER SPACE</h1>
 
-            <p id="welcome-message">Loading...</p>
-
-            <p>
-                Welcome to your IronCore Fitness member area.
+            <p id="welcome-message">
+                Loading member information...
             </p>
 
-            <button id="logout-button">
+            <div class="member-badge">
+                🔒 MEMBERS ONLY
+            </div>
+
+        </section>
+
+
+        <!-- MEMBER STATS -->
+
+        <h2 class="section-title">
+            🏆 Your Progress
+        </h2>
+
+        <section class="cards">
+
+            <div class="member-card">
+
+                <h3>🏋️ Workouts Completed</h3>
+
+                <div class="big-number">
+                    12
+                </div>
+
+                <p>Keep building your consistency!</p>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>🔥 Current Streak</h3>
+
+                <div class="big-number">
+                    5 Days
+                </div>
+
+                <p>Don't break the streak!</p>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>⭐ XP</h3>
+
+                <div class="big-number">
+                    720
+                </div>
+
+                <p>280 XP until the next level.</p>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>🏅 Current Level</h3>
+
+                <div class="big-number">
+                    Warrior
+                </div>
+
+                <p>Keep training to reach Elite.</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- WORKOUT -->
+
+        <h2 class="section-title">
+            🏋️ My Workout
+        </h2>
+
+        <section class="cards">
+
+            <div class="member-card">
+
+                <h3>💪 Strength</h3>
+
+                <p>Push-ups</p>
+                <p>Squats</p>
+                <p>Plank</p>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>🏃 Cardio</h3>
+
+                <p>Running</p>
+                <p>Cycling</p>
+                <p>Jumping Jacks</p>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>🧘 Recovery</h3>
+
+                <p>Stretching</p>
+                <p>Mobility exercises</p>
+                <p>Rest & recovery</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- GOALS -->
+
+        <h2 class="section-title">
+            🎯 My Goals
+        </h2>
+
+        <section class="cards">
+
+            <div class="member-card">
+
+                <h3>💪 Strength</h3>
+
+                <p>Progress: 70%</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:70%;"></div>
+                </div>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>🏃 Stamina</h3>
+
+                <p>Progress: 55%</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:55%;"></div>
+                </div>
+
+            </div>
+
+
+            <div class="member-card">
+
+                <h3>🔥 Consistency</h3>
+
+                <p>Progress: 80%</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:80%;"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LEVEL -->
+
+        <h2 class="section-title">
+            🏅 IronCore Level
+        </h2>
+
+        <section class="member-card">
+
+            <h3>Warrior → Elite</h3>
+
+            <p>
+                720 / 1000 XP
+            </p>
+
+            <div class="progress-bar">
+
+                <div class="progress-fill" style="width:72%;"></div>
+
+            </div>
+
+            <p>
+                Earn more XP by completing your weekly challenges.
+            </p>
+
+        </section>
+
+
+        <!-- WEEKLY CHALLENGE -->
+
+        <section class="challenge">
+
+            <h2>
+                ⚔️ Weekly Challenge
+            </h2>
+
+            <p>
+                Complete 4 workouts this week.
+            </p>
+
+            <h3>
+                2 / 4 Completed
+            </h3>
+
+            <div class="progress-bar">
+
+                <div class="progress-fill" style="width:50%; background:white;"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REWARDS -->
+
+        <h2 class="section-title">
+            🎁 Member Rewards
+        </h2>
+
+        <section class="cards">
+
+            <div class="member-card reward">
+
+                <div class="reward-icon">
+                    🥉
+                </div>
+
+                <h3>Bronze</h3>
+
+                <p>Complete 10 workouts</p>
+
+            </div>
+
+
+            <div class="member-card reward">
+
+                <div class="reward-icon">
+                    🥈
+                </div>
+
+                <h3>Silver</h3>
+
+                <p>Complete 25 workouts</p>
+
+            </div>
+
+
+            <div class="member-card reward">
+
+                <div class="reward-icon">
+                    🥇
+                </div>
+
+                <h3>Gold</h3>
+
+                <p>Complete 50 workouts</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MEMBER TIP -->
+
+        <section class="tip">
+
+            <h2>
+                🧠 Member Tip
+            </h2>
+
+            <p>
+                Consistency matters more than trying to do everything at once.
+                Focus on improving a little every day.
+            </p>
+
+        </section>
+
+
+        <!-- ACTIONS -->
+
+        <div class="member-actions">
+
+            <a href="index.html" class="website-button">
+                🏠 Go to IronCore Website
+            </a>
+
+            <button id="logout-button" class="logout-button">
                 Logout
             </button>
 
         </div>
 
-    </div>
+
+        <p class="demo-notice">
+            This Members Area is part of the IronCore Fitness student demo project.
+            Progress, workouts, XP and rewards shown here are demonstration data.
+        </p>
+
+    </main>
+
 
     <script src="auth.js"></script>
 
@@ -46,14 +491,22 @@
                 data: { session }
             } = await supabaseClient.auth.getSession();
 
+
             if (!session) {
+
                 window.location.href = "login.html";
+
                 return;
+
             }
 
+
             document.getElementById("welcome-message").textContent =
-                "Welcome, " + session.user.email;
+                "Welcome back, " + session.user.email + "!";
+
+
         }
+
 
         document.getElementById("logout-button")
             .addEventListener("click", async function () {
@@ -63,6 +516,7 @@
                 window.location.href = "login.html";
 
             });
+
 
         checkLogin();
 
