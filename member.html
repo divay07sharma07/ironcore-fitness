@@ -211,9 +211,26 @@
     font-size: 40px;
 }
 
+        .profile-avatar {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.05);
+}
+
 .account-active {
     color: green;
     font-weight: bold;
+}
+
+        .avatar-hint {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
         .demo-notice {
@@ -255,6 +272,8 @@
     <div class="profile-avatar" id="avatar">
     👤
 </div>
+
+            <p class="avatar-hint">Click your avatar to change photo</p>
 
             <input type="file" id="avatar-input" accept="image/*" hidden>
 
@@ -594,6 +613,23 @@ const avatarInput = document.getElementById("avatar-input");
 
 avatar.addEventListener("click", function () {
     avatarInput.click();
+});
+
+        avatarInput.addEventListener("change", function () {
+
+    const file = avatarInput.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const imageURL = URL.createObjectURL(file);
+
+    avatar.innerHTML = "";
+    avatar.style.backgroundImage = "url('" + imageURL + "')";
+    avatar.style.backgroundSize = "cover";
+    avatar.style.backgroundPosition = "center";
+
 });
 
         async function checkLogin() {
