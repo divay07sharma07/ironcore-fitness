@@ -1997,6 +1997,18 @@
         const saved =
             await saveMemberData();
 
+        const { error: historyError } = await supabaseClient
+    .from("workout_history")
+    .insert({
+        user_id: currentUser.id,
+        workout_date: getToday(),
+        xp_earned: 100
+    });
+
+if (historyError) {
+    console.error("Workout history error:", historyError);
+}
+
 
         if (saved) {
 
