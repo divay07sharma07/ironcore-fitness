@@ -1,133 +1,283 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login | IronCore Fitness</title>
+```
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Login | IronCore Fitness</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+```
+
 </head>
 
 <body>
 
-    <div class="login-container">
+```
+<div class="login-container">
 
-        <div class="login-box">
+    <div class="login-box">
 
-            <h1>IronCore Fitness</h1>
+        <h1>IronCore Fitness</h1>
 
-            <h2>Member Login</h2>
+        <h2>Member Login</h2>
 
-            <form id="login-form">
 
-                <label for="email">Email</label>
+        <form id="login-form">
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    required
-                >
+            <label for="email">
+                Email
+            </label>
 
-                <label for="password">Password</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+
+            <label for="password">
+                Password
+            </label>
+
+            <p class="password-help">
+                🔐 Create a new password for your
+                IronCore Fitness account.
+                <br>
+                <span>
+                    This is NOT your email/Gmail password.
+                </span>
+            </p>
+
+
+            <div class="password-wrapper">
 
                 <input
                     type="password"
                     id="password"
-                    placeholder="Enter your password"
+                    placeholder="Create your IronCore password"
                     required
                 >
 
-                <button type="submit">Login</button>
+                <button
+                    type="button"
+                    id="toggle-password"
+                    class="show-password-button"
+                >
+                    👁️ Show
+                </button>
 
-            </form>
+            </div>
 
-            <p id="message"></p>
 
-            <p>
-                Don't have an account?
-                <a href="#" id="signup-link">Create Account</a>
-            </p>
+            <button type="submit">
+                Login
+            </button>
 
-        </div>
+        </form>
+
+
+        <p id="message"></p>
+
+
+        <p>
+            Don't have an account?
+            <a href="#" id="signup-link">
+                Create Account
+            </a>
+        </p>
 
     </div>
 
-    <script src="auth.js"></script>
+</div>
 
-    <script>
 
-        const loginForm = document.getElementById("login-form");
-        const message = document.getElementById("message");
-        const signupLink = document.getElementById("signup-link");
+<script src="auth.js"></script>
 
-        loginForm.addEventListener("submit", async function (event) {
+
+<script>
+
+    const loginForm =
+        document.getElementById("login-form");
+
+    const message =
+        document.getElementById("message");
+
+    const signupLink =
+        document.getElementById("signup-link");
+
+    const togglePassword =
+        document.getElementById("toggle-password");
+
+
+    /* =========================
+       SHOW / HIDE PASSWORD
+    ========================= */
+
+    togglePassword.addEventListener(
+        "click",
+        function () {
+
+            const passwordInput =
+                document.getElementById("password");
+
+            if (
+                passwordInput.type === "password"
+            ) {
+
+                passwordInput.type = "text";
+
+                togglePassword.textContent =
+                    "🙈 Hide";
+
+            } else {
+
+                passwordInput.type = "password";
+
+                togglePassword.textContent =
+                    "👁️ Show";
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
 
             event.preventDefault();
 
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
-            message.textContent = "Logging in...";
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            message.textContent =
+                "Logging in...";
+
 
             const { error } =
-                await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+                await supabaseClient.auth
+                    .signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+
 
             if (error) {
-                message.textContent = "Login error: " + error.message;
+
+                message.textContent =
+                    "Login error: " +
+                    error.message;
+
                 return;
             }
 
-            message.textContent = "Login successful!";
 
-            window.location.href = "member.html";
-
-        });
+            message.textContent =
+                "Login successful!";
 
 
-        signupLink.addEventListener("click", async function (event) {
+            window.location.href =
+                "member.html";
+
+        }
+    );
+
+
+    /* =========================
+       CREATE ACCOUNT
+    ========================= */
+
+    signupLink.addEventListener(
+        "click",
+        async function (event) {
 
             event.preventDefault();
 
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
 
             if (!email || !password) {
+
                 message.textContent =
-                    "Enter an email and password first.";
+                    "Enter an email and create a new password first.";
+
                 return;
             }
 
-            message.textContent = "Creating account...";
+
+            message.textContent =
+                "Creating account...";
+
 
             const { error } =
-                await supabaseClient.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        emailRedirectTo:
-                            "https://divay07sharma07.github.io/ironcore-fitness/"
-                    }
-                });
+                await supabaseClient.auth
+                    .signUp({
+
+                        email: email,
+
+                        password: password,
+
+                        options: {
+
+                            emailRedirectTo:
+                                "https://divay07sharma07.github.io/ironcore-fitness/"
+
+                        }
+
+                    });
+
 
             if (error) {
-                message.textContent = error.message;
+
+                message.textContent =
+                    error.message;
+
                 return;
             }
+
 
             message.textContent =
                 "Account created! Check your email to confirm your account.";
 
-        });
+        }
+    );
 
-    </script>
+</script>
+```
 
 </body>
 
