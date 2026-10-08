@@ -33,6 +33,8 @@
 
         <form id="login-form">
 
+            <!-- EMAIL -->
+
             <label for="email">
                 Email
             </label>
@@ -45,19 +47,11 @@
             >
 
 
+            <!-- PASSWORD -->
+
             <label for="password">
                 Password
             </label>
-
-            <p class="password-help">
-                🔐 Create a new password for your
-                IronCore Fitness account.
-                <br>
-                <span>
-                    This is NOT your email/Gmail password.
-                </span>
-            </p>
-
 
             <div class="password-wrapper">
 
@@ -79,6 +73,21 @@
             </div>
 
 
+            <!-- PASSWORD EXPLANATION -->
+
+            <p class="password-help">
+                🔐 Create a new password for your
+                IronCore Fitness account.
+                <br>
+
+                <span>
+                    This is NOT your email/Gmail password.
+                </span>
+            </p>
+
+
+            <!-- LOGIN BUTTON -->
+
             <button type="submit">
                 Login
             </button>
@@ -91,6 +100,7 @@
 
         <p>
             Don't have an account?
+
             <a href="#" id="signup-link">
                 Create Account
             </a>
@@ -105,6 +115,10 @@
 
 
 <script>
+
+    /* =========================
+       ELEMENTS
+    ========================= */
 
     const loginForm =
         document.getElementById("login-form");
@@ -129,6 +143,7 @@
 
             const passwordInput =
                 document.getElementById("password");
+
 
             if (
                 passwordInput.type === "password"
@@ -162,11 +177,13 @@
 
             event.preventDefault();
 
+
             const email =
                 document
                     .getElementById("email")
                     .value
                     .trim();
+
 
             const password =
                 document
@@ -181,8 +198,11 @@
             const { error } =
                 await supabaseClient.auth
                     .signInWithPassword({
+
                         email: email,
+
                         password: password
+
                     });
 
 
@@ -193,6 +213,7 @@
                     error.message;
 
                 return;
+
             }
 
 
@@ -224,6 +245,7 @@
                     .value
                     .trim();
 
+
             const password =
                 document
                     .getElementById("password")
@@ -236,6 +258,7 @@
                     "Enter an email and create a new password first.";
 
                 return;
+
             }
 
 
@@ -267,6 +290,7 @@
                     error.message;
 
                 return;
+
             }
 
 
