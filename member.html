@@ -1,501 +1,507 @@
+```html
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>IronCore Members Area</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+    <title>IronCore Members Area</title>
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
 
-<!-- Existing Supabase configuration -->
-<script src="auth.js"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+    <!-- Existing Supabase configuration -->
+    <script src="auth.js"></script>
 
-    * {
-        box-sizing: border-box;
-    }
+    <style>
 
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #E8F1F2;
-        color: #263238;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    /* =========================
-       LOADING
-    ========================= */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #E8F1F2;
+            color: #263238;
+        }
 
-    #loading {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #345B63;
-        font-size: 20px;
-        font-weight: bold;
-    }
+        /* =========================
+           LOADING
+        ========================= */
 
-    #member-content {
-        display: none;
-    }
+        #loading {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #345B63;
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-    /* =========================
-       NAVIGATION
-    ========================= */
+        #member-content {
+            display: none;
+        }
 
-    .member-nav {
-        background: #345B63;
-        color: white;
-        padding: 15px 25px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 15px;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .member-logo {
-        font-size: 22px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    .member-nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .member-nav-links a {
-        color: white;
-        text-decoration: none;
-        padding: 8px 11px;
-        border-radius: 8px;
-        font-size: 14px;
-    }
-
-    .member-nav-links a:hover {
-        background: rgba(255,255,255,0.15);
-    }
-
-    .logout-button {
-        border: none;
-        background: #E8F1F2;
-        color: #345B63;
-        padding: 9px 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .logout-button:hover {
-        background: white;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    .member-container {
-        width: 92%;
-        max-width: 1100px;
-        margin: 30px auto;
-    }
-
-    .welcome-box,
-    .section {
-        background: white;
-        border-radius: 18px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-    }
-
-    .welcome-box {
-        padding: 30px;
-        text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .welcome-box h1 {
-        margin-top: 0;
-        color: #345B63;
-    }
-
-    .welcome-email {
-        color: #607D8B;
-        word-break: break-word;
-    }
-
-    .section {
-        padding: 25px;
-        margin-bottom: 25px;
-    }
-
-    .section h2 {
-        margin-top: 0;
-        color: #345B63;
-    }
-
-    /* =========================
-       PROFILE
-    ========================= */
-
-    .profile-header {
-        text-align: center;
-    }
-
-    .profile-avatar {
-        width: 125px;
-        height: 125px;
-        margin: 15px auto;
-        border-radius: 50%;
-        background: #E8F1F2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 55px;
-        cursor: pointer;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        overflow: hidden;
-        border: 4px solid #345B63;
-    }
-
-    .avatar-hint {
-        color: #607D8B;
-        font-size: 13px;
-    }
-
-    .profile-name {
-        color: #345B63;
-        font-size: 25px;
-        font-weight: bold;
-        margin-top: 15px;
-    }
-
-    .profile-email {
-        color: #607D8B;
-        word-break: break-word;
-    }
-
-    .profile-details {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        gap: 15px;
-        margin-top: 25px;
-    }
-
-    .detail-box {
-        background: #F4F8F9;
-        border: 1px solid #D9E5E8;
-        padding: 18px;
-        border-radius: 12px;
-    }
-
-    .detail-title {
-        color: #607D8B;
-        font-size: 13px;
-        margin-bottom: 7px;
-    }
-
-    .detail-value {
-        color: #263238;
-        font-weight: bold;
-        word-break: break-word;
-    }
-
-    /* =========================
-       MEMBER ID
-    ========================= */
-
-    .member-id-box {
-        margin-top: 20px;
-        padding: 15px;
-        background: #345B63;
-        color: white;
-        border-radius: 12px;
-        text-align: center;
-    }
-
-    .member-id-label {
-        font-size: 12px;
-        opacity: 0.8;
-    }
-
-    .member-id {
-        font-size: 20px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        margin-top: 5px;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
-
-    .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 15px;
-    }
-
-    .stat-card {
-        background: #F4F8F9;
-        border: 1px solid #D9E5E8;
-        padding: 20px;
-        border-radius: 14px;
-        text-align: center;
-    }
-
-    .stat-icon {
-        font-size: 30px;
-    }
-
-    .stat-number {
-        color: #345B63;
-        font-size: 30px;
-        font-weight: bold;
-        margin: 8px 0;
-    }
-
-    .stat-label {
-        color: #607D8B;
-        font-size: 14px;
-    }
-
-    /* =========================
-       LEVEL
-    ========================= */
-
-    .level-box {
-        background: #F4F8F9;
-        padding: 25px;
-        border-radius: 15px;
-        text-align: center;
-    }
-
-    .level-number {
-        color: #345B63;
-        font-size: 45px;
-        font-weight: bold;
-    }
-
-    .level-name {
-        font-size: 24px;
-        font-weight: bold;
-        margin: 5px 0 18px;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 15px;
-        background: #D9E5E8;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .progress-fill {
-        width: 0%;
-        height: 100%;
-        background: #345B63;
-        border-radius: 20px;
-        transition: width 0.4s ease;
-    }
-
-    .level-progress-text {
-        margin-top: 10px;
-        color: #607D8B;
-        font-size: 14px;
-    }
-
-    /* =========================
-       XP
-    ========================= */
-
-    .xp-box {
-        background: #F4F8F9;
-        padding: 20px;
-        border-radius: 14px;
-    }
-
-    .xp-header {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-
-    .xp-current {
-        color: #345B63;
-    }
-
-    .xp-next {
-        color: #607D8B;
-    }
-
-    /* =========================
-       WORKOUT
-    ========================= */
-
-    .workout-box {
-        text-align: center;
-    }
-
-    .workout-button {
-        border: none;
-        background: #345B63;
-        color: white;
-        padding: 13px 22px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .workout-button:hover {
-        background: #26474E;
-    }
-
-    .workout-button:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
-
-    .demo-note {
-        margin-top: 15px;
-        padding: 12px;
-        background: #FFF8E1;
-        border-radius: 10px;
-        color: #6D5B00;
-        font-size: 13px;
-    }
-
-    /* =========================
-       CHALLENGE
-    ========================= */
-
-    .challenge-box {
-        background: #F4F8F9;
-        padding: 20px;
-        border-radius: 14px;
-        text-align: center;
-    }
-
-    .challenge-number {
-        color: #345B63;
-        font-size: 35px;
-        font-weight: bold;
-        margin: 10px 0;
-    }
-
-    /* =========================
-       REWARDS
-    ========================= */
-
-    .reward-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        gap: 15px;
-    }
-
-    .reward-card {
-        background: #F4F8F9;
-        border: 1px solid #D9E5E8;
-        padding: 20px;
-        border-radius: 14px;
-    }
-
-    .reward-card.unlocked {
-        border: 2px solid #345B63;
-    }
-
-    .reward-card.locked {
-        opacity: 0.55;
-    }
-
-    .reward-icon {
-        font-size: 32px;
-    }
-
-    /* =========================
-       BUTTONS
-    ========================= */
-
-    .back-button {
-        display: inline-block;
-        text-decoration: none;
-        background: #345B63;
-        color: white;
-        padding: 12px 18px;
-        border-radius: 9px;
-        font-weight: bold;
-    }
-
-    .back-button:hover {
-        background: #26474E;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    .member-footer {
-        text-align: center;
-        padding: 30px 15px;
-        color: #607D8B;
-        font-size: 13px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 700px) {
+        /* =========================
+           NAVIGATION
+        ========================= */
 
         .member-nav {
-            flex-direction: column;
+            background: #345B63;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .member-logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .member-nav-links {
-            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
         }
 
+        .member-nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 11px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .member-nav-links a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .logout-button {
+            border: none;
+            background: #E8F1F2;
+            color: #345B63;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-button:hover {
+            background: white;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
         .member-container {
-            width: 94%;
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .welcome-box,
+        .section {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .welcome-box {
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .welcome-box h1 {
+            margin-top: 0;
+            color: #345B63;
+        }
+
+        .welcome-email {
+            color: #607D8B;
+            word-break: break-word;
+        }
+
+        .section {
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: #345B63;
+        }
+
+        /* =========================
+           PROFILE
+        ========================= */
+
+        .profile-header {
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 125px;
+            height: 125px;
+            margin: 15px auto;
+            border-radius: 50%;
+            background: #E8F1F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            border: 4px solid #345B63;
+        }
+
+        .avatar-hint {
+            color: #607D8B;
+            font-size: 13px;
+        }
+
+        .profile-name {
+            color: #345B63;
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .profile-email {
+            color: #607D8B;
+            word-break: break-word;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .detail-box {
+            background: #F4F8F9;
+            border: 1px solid #D9E5E8;
+            padding: 18px;
+            border-radius: 12px;
+        }
+
+        .detail-title {
+            color: #607D8B;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .detail-value {
+            color: #263238;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        /* =========================
+           MEMBER ID
+        ========================= */
+
+        .member-id-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #345B63;
+            color: white;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .member-id-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .member-id {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: #F4F8F9;
+            border: 1px solid #D9E5E8;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 30px;
+        }
+
+        .stat-number {
+            color: #345B63;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .stat-label {
+            color: #607D8B;
+            font-size: 14px;
+        }
+
+        /* =========================
+           LEVEL
+        ========================= */
+
+        .level-box {
+            background: #F4F8F9;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .level-number {
+            color: #345B63;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        .level-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0 18px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 15px;
+            background: #D9E5E8;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #345B63;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .level-progress-text {
+            margin-top: 10px;
+            color: #607D8B;
+            font-size: 14px;
+        }
+
+        /* =========================
+           XP
+        ========================= */
+
+        .xp-box {
+            background: #F4F8F9;
+            padding: 20px;
+            border-radius: 14px;
         }
 
         .xp-header {
-            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
-    }
 
-</style>
-```
+        .xp-current {
+            color: #345B63;
+        }
+
+        .xp-next {
+            color: #607D8B;
+        }
+
+        /* =========================
+           WORKOUT
+        ========================= */
+
+        .workout-box {
+            text-align: center;
+        }
+
+        .workout-button {
+            border: none;
+            background: #345B63;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .workout-button:hover {
+            background: #26474E;
+        }
+
+        .workout-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .demo-note {
+            margin-top: 15px;
+            padding: 12px;
+            background: #FFF8E1;
+            border-radius: 10px;
+            color: #6D5B00;
+            font-size: 13px;
+        }
+
+        /* =========================
+           CHALLENGE
+        ========================= */
+
+        .challenge-box {
+            background: #F4F8F9;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .challenge-number {
+            color: #345B63;
+            font-size: 35px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* =========================
+           REWARDS
+        ========================= */
+
+        .reward-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px;
+        }
+
+        .reward-card {
+            background: #F4F8F9;
+            border: 1px solid #D9E5E8;
+            padding: 20px;
+            border-radius: 14px;
+        }
+
+        .reward-card.unlocked {
+            border: 2px solid #345B63;
+        }
+
+        .reward-card.locked {
+            opacity: 0.55;
+        }
+
+        .reward-icon {
+            font-size: 32px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .back-button {
+            display: inline-block;
+            text-decoration: none;
+            background: #345B63;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #26474E;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .member-footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #607D8B;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .member-nav {
+                flex-direction: column;
+            }
+
+            .member-nav-links {
+                width: 100%;
+            }
+
+            .member-container {
+                width: 94%;
+            }
+
+            .xp-header {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-```
+
 <!-- =========================
      LOADING
 ========================= -->
 
 <div id="loading">
+
     Checking member access...
+
 </div>
 
 
@@ -504,6 +510,7 @@
 ========================= -->
 
 <div id="member-content">
+
 
     <!-- NAVIGATION -->
 
@@ -515,22 +522,38 @@
 
         <div class="member-nav-links">
 
-            <a href="#profile">👤 Profile</a>
+            <a href="#profile">
+                👤 Profile
+            </a>
 
-            <a href="#workout">🏋️ Workout</a>
+            <a href="#workout">
+                🏋️ Workout
+            </a>
 
-            <a href="#progress">📊 Progress</a>
+            <a href="#progress">
+                📊 Progress
+            </a>
 
-            <a href="#goals">🎯 Goals</a>
+            <a href="#goals">
+                🎯 Goals
+            </a>
 
-            <a href="#rewards">🎁 Rewards</a>
+            <a href="#rewards">
+                🎁 Rewards
+            </a>
+
+            <a href="#history">
+                📜 History
+            </a>
 
         </div>
 
         <button
             class="logout-button"
             id="logout-button">
+
             Logout
+
         </button>
 
     </nav>
@@ -556,7 +579,9 @@
             <p
                 class="welcome-email"
                 id="welcome-email">
+
                 Loading...
+
             </p>
 
         </section>
@@ -580,11 +605,15 @@
                     class="profile-avatar"
                     id="avatar"
                     title="Click to change your profile photo">
+
                     👤
+
                 </div>
 
                 <p class="avatar-hint">
+
                     Click your avatar to change your photo
+
                 </p>
 
                 <input
@@ -593,14 +622,20 @@
                     accept="image/*"
                     hidden>
 
+
                 <div class="profile-name">
+
                     IronCore Member
+
                 </div>
+
 
                 <p
                     class="profile-email"
                     id="profile-email">
+
                     Loading...
+
                 </p>
 
             </div>
@@ -611,13 +646,17 @@
             <div class="member-id-box">
 
                 <div class="member-id-label">
+
                     YOUR MEMBER ID
+
                 </div>
 
                 <div
                     class="member-id"
                     id="member-id">
+
                     IC-LOADING
+
                 </div>
 
             </div>
@@ -637,7 +676,9 @@
                     <div
                         class="detail-value"
                         id="account-email">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -650,7 +691,9 @@
                     </div>
 
                     <div class="detail-value">
+
                         Active Member
+
                     </div>
 
                 </div>
@@ -665,7 +708,9 @@
                     <div
                         class="detail-value"
                         id="member-since">
+
                         Loading...
+
                     </div>
 
                 </div>
@@ -680,7 +725,9 @@
                     <div
                         class="detail-value"
                         id="profile-level">
+
                         Beginner
+
                     </div>
 
                 </div>
@@ -695,7 +742,9 @@
                     <div
                         class="detail-value"
                         id="last-workout">
+
                         No workout recorded yet
+
                     </div>
 
                 </div>
@@ -710,7 +759,9 @@
                     <div
                         class="detail-value"
                         id="profile-weekly">
+
                         0 workouts
+
                     </div>
 
                 </div>
@@ -742,11 +793,15 @@
                     <div
                         class="stat-number"
                         id="workouts">
+
                         0
+
                     </div>
 
                     <div class="stat-label">
+
                         Workouts Completed
+
                     </div>
 
                 </div>
@@ -761,11 +816,15 @@
                     <div
                         class="stat-number"
                         id="streak">
+
                         0
+
                     </div>
 
                     <div class="stat-label">
+
                         Current Streak
+
                     </div>
 
                 </div>
@@ -780,11 +839,15 @@
                     <div
                         class="stat-number"
                         id="xp">
+
                         0
+
                     </div>
 
                     <div class="stat-label">
+
                         XP
+
                     </div>
 
                 </div>
@@ -799,11 +862,15 @@
                     <div
                         class="stat-number"
                         id="weekly-workouts">
+
                         0
+
                     </div>
 
                     <div class="stat-label">
+
                         This Week
+
                     </div>
 
                 </div>
@@ -830,13 +897,17 @@
                 <div
                     class="level-number"
                     id="level-number">
+
                     1
+
                 </div>
 
                 <div
                     class="level-name"
                     id="level-name">
+
                     🟢 Beginner
+
                 </div>
 
                 <div class="progress-bar">
@@ -844,6 +915,7 @@
                     <div
                         class="progress-fill"
                         id="level-progress">
+
                     </div>
 
                 </div>
@@ -851,7 +923,9 @@
                 <div
                     class="level-progress-text"
                     id="level-progress-text">
+
                     0 workouts
+
                 </div>
 
             </div>
@@ -876,13 +950,17 @@
                     <span
                         class="xp-current"
                         id="xp-current">
+
                         0 XP
+
                     </span>
 
                     <span
                         class="xp-next"
                         id="xp-next">
+
                         Loading...
+
                     </span>
 
                 </div>
@@ -892,6 +970,7 @@
                     <div
                         class="progress-fill"
                         id="xp-progress">
+
                     </div>
 
                 </div>
@@ -899,7 +978,9 @@
                 <p
                     class="level-progress-text"
                     id="xp-progress-text">
+
                     Keep completing workouts to earn XP.
+
                 </p>
 
             </div>
@@ -908,22 +989,27 @@
 
 
         <!-- =========================
-     WORKOUT HISTORY
-========================= -->
+             WORKOUT HISTORY
+        ========================= -->
 
-<section
-    class="section"
-    id="history">
+        <section
+            class="section"
+            id="history">
 
-    <h2>
-        📜 Workout History
-    </h2>
+            <h2>
+                📜 Workout History
+            </h2>
 
-    <div id="workout-history">
-        <p>Loading workout history...</p>
-    </div>
+            <div id="workout-history">
 
-</section>
+                <p>
+                    Loading workout history...
+                </p>
+
+            </div>
+
+        </section>
+
 
         <!-- =========================
              WEEKLY CHALLENGE
@@ -944,7 +1030,9 @@
                 <div
                     class="challenge-number"
                     id="challenge-count">
+
                     0 / 4
+
                 </div>
 
                 <div class="progress-bar">
@@ -952,12 +1040,15 @@
                     <div
                         class="progress-fill"
                         id="challenge-progress">
+
                     </div>
 
                 </div>
 
                 <p id="challenge-message">
+
                     Your challenge starts now!
+
                 </p>
 
             </div>
@@ -1134,9 +1225,11 @@
             </h2>
 
             <p>
+
                 Consistency is more important than trying
                 to do everything at once. Build your routine
                 one workout at a time.
+
             </p>
 
         </section>
@@ -1153,7 +1246,9 @@
             <a
                 class="back-button"
                 href="index.html">
+
                 🏠 Back to Website
+
             </a>
 
         </section>
@@ -1175,6 +1270,7 @@
 
 
 <script>
+
 
     /* =========================================
        MEMBER DATA
@@ -1281,7 +1377,9 @@
         for (const level of levels) {
 
             if (workouts >= level.min) {
+
                 currentLevel = level;
+
             }
 
         }
@@ -1322,7 +1420,9 @@
     function formatDate(dateString) {
 
         if (!dateString) {
+
             return "No workout recorded yet";
+
         }
 
         const date =
@@ -1443,6 +1543,8 @@
 
         await loadAvatar();
 
+        await loadWorkoutHistory();
+
     }
 
 
@@ -1511,32 +1613,145 @@
 
 
     /* =========================================
+       WORKOUT HISTORY
+    ========================================= */
+
+    async function loadWorkoutHistory() {
+
+        const historyBox =
+            document.getElementById(
+                "workout-history"
+            );
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("workout_history")
+
+            .select(
+                "workout_date, xp_earned"
+            )
+
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+
+            .order(
+                "workout_date",
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+
+            console.error(
+                "History loading error:",
+                error
+            );
+
+            historyBox.innerHTML =
+                "<p>Could not load workout history.</p>";
+
+            return;
+
+        }
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            historyBox.innerHTML =
+                "<p>No workouts recorded yet.</p>";
+
+            return;
+
+        }
+
+
+        historyBox.innerHTML =
+            data.map(workout => `
+
+                <div style="
+                    background:#F4F8F9;
+                    border:1px solid #D9E5E8;
+                    padding:15px;
+                    border-radius:12px;
+                    margin-bottom:10px;
+                    display:flex;
+                    justify-content:space-between;
+                    gap:10px;
+                    flex-wrap:wrap;
+                ">
+
+                    <strong>
+                        🏋️ ${formatDate(
+                            workout.workout_date
+                        )}
+                    </strong>
+
+                    <span style="
+                        color:#345B63;
+                        font-weight:bold;
+                    ">
+
+                        ⭐ +${workout.xp_earned} XP
+
+                    </span>
+
+                </div>
+
+            `).join("");
+
+    }
+
+
+    /* =========================================
        UPDATE DASHBOARD
     ========================================= */
 
     function updateDashboard() {
 
-        document.getElementById("workouts").textContent =
+        document.getElementById(
+            "workouts"
+        ).textContent =
             memberData.workouts;
 
 
-        document.getElementById("streak").textContent =
+        document.getElementById(
+            "streak"
+        ).textContent =
             memberData.streak;
 
 
-        document.getElementById("xp").textContent =
+        document.getElementById(
+            "xp"
+        ).textContent =
             memberData.xp;
 
 
-        document.getElementById("weekly-workouts").textContent =
+        document.getElementById(
+            "weekly-workouts"
+        ).textContent =
             memberData.weekly_workouts;
 
 
-        document.getElementById("profile-weekly").textContent =
+        document.getElementById(
+            "profile-weekly"
+        ).textContent =
             `${memberData.weekly_workouts} workout(s)`;
 
 
-        document.getElementById("last-workout").textContent =
+        document.getElementById(
+            "last-workout"
+        ).textContent =
             formatDate(
                 memberData.last_workout_date
             );
@@ -1550,15 +1765,21 @@
             );
 
 
-        document.getElementById("level-number").textContent =
+        document.getElementById(
+            "level-number"
+        ).textContent =
             currentLevel.level;
 
 
-        document.getElementById("level-name").textContent =
+        document.getElementById(
+            "level-name"
+        ).textContent =
             currentLevel.name;
 
 
-        document.getElementById("profile-level").textContent =
+        document.getElementById(
+            "profile-level"
+        ).textContent =
             currentLevel.name;
 
 
@@ -1570,7 +1791,9 @@
             `${memberData.workouts} workouts`;
 
 
-        if (currentLevel.max !== Infinity) {
+        if (
+            currentLevel.max !== Infinity
+        ) {
 
             const range =
                 currentLevel.max -
@@ -1588,7 +1811,10 @@
                     0,
                     Math.min(
                         100,
-                        (completed / range) * 100
+                        (
+                            completed /
+                            range
+                        ) * 100
                     )
                 );
 
@@ -1614,11 +1840,15 @@
         }
 
 
-        document.getElementById("level-progress").style.width =
+        document.getElementById(
+            "level-progress"
+        ).style.width =
             levelProgress + "%";
 
 
-        document.getElementById("level-progress-text").textContent =
+        document.getElementById(
+            "level-progress-text"
+        ).textContent =
             levelText;
 
 
@@ -1637,14 +1867,21 @@
 
 
         const weeklyProgress =
-            (weeklyCount / 4) * 100;
+            (
+                weeklyCount /
+                4
+            ) * 100;
 
 
-        document.getElementById("challenge-count").textContent =
+        document.getElementById(
+            "challenge-count"
+        ).textContent =
             `${weeklyCount} / 4`;
 
 
-        document.getElementById("challenge-progress").style.width =
+        document.getElementById(
+            "challenge-progress"
+        ).style.width =
             weeklyProgress + "%";
 
 
@@ -1687,17 +1924,25 @@
             memberData.xp;
 
 
-        document.getElementById("xp-current").textContent =
+        document.getElementById(
+            "xp-current"
+        ).textContent =
             `${xp} XP`;
 
 
-        if (currentLevel.max === Infinity) {
+        if (
+            currentLevel.max === Infinity
+        ) {
 
-            document.getElementById("xp-next").textContent =
+            document.getElementById(
+                "xp-next"
+            ).textContent =
                 "Maximum level";
 
 
-            document.getElementById("xp-progress").style.width =
+            document.getElementById(
+                "xp-progress"
+            ).style.width =
                 "100%";
 
 
@@ -1744,7 +1989,10 @@
                 0,
                 Math.min(
                     100,
-                    (earnedXP / requiredXP) * 100
+                    (
+                        earnedXP /
+                        requiredXP
+                    ) * 100
                 )
             );
 
@@ -1752,15 +2000,20 @@
         const remainingXP =
             Math.max(
                 0,
-                nextXP - xp
+                nextXP -
+                xp
             );
 
 
-        document.getElementById("xp-next").textContent =
+        document.getElementById(
+            "xp-next"
+        ).textContent =
             `${nextXP} XP for Level ${nextLevel.level}`;
 
 
-        document.getElementById("xp-progress").style.width =
+        document.getElementById(
+            "xp-progress"
+        ).style.width =
             progress + "%";
 
 
@@ -1885,7 +2138,9 @@
                 );
 
 
-            if (difference === 1) {
+            if (
+                difference === 1
+            ) {
 
                 newStreak =
                     memberData.streak + 1;
@@ -1919,7 +2174,9 @@
 
 
         const monday =
-            new Date(currentDate);
+            new Date(
+                currentDate
+            );
 
 
         monday.setDate(
@@ -1979,24 +2236,44 @@
         const saved =
             await saveMemberData();
 
-        const { error: historyError } = await supabaseClient
-    .from("workout_history")
-    .insert({
-        user_id: currentUser.id,
-        workout_date: getToday(),
-        xp_earned: 100
-    });
-
-if (historyError) {
-    console.error("Workout history error:", historyError);
-}
-
 
         if (saved) {
+
+            const {
+                error: historyError
+            } = await supabaseClient
+
+                .from("workout_history")
+
+                .insert({
+
+                    user_id:
+                        currentUser.id,
+
+                    workout_date:
+                        today,
+
+                    xp_earned:
+                        100
+
+                });
+
+
+            if (historyError) {
+
+                console.error(
+                    "Workout history error:",
+                    historyError
+                );
+
+            }
+
 
             updateDashboard();
 
             updateWorkoutButton();
+
+            await loadWorkoutHistory();
 
         } else {
 
@@ -2499,8 +2776,8 @@ if (historyError) {
     startMemberArea();
 
 </script>
-```
 
 </body>
 
 </html>
+```
